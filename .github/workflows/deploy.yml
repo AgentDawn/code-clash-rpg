@@ -55,6 +55,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Zero-downtime Deployment Script
-        run: & "C:\Program Files\Git\bin\bash.exe" scripts/deploy.sh
+        run: |
+          & "C:\Program Files\Git\bin\bash.exe" scripts/deploy.sh
         env:
           IMAGE_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:latest
