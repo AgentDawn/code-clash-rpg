@@ -116,9 +116,16 @@ func ptrString(s string) *string {
 // --- Global App Variables (State) ---
 
 const (
-	DB_FILE      = "db.json"
 	SESSION_NAME = "rpg_session"
 )
+
+func getDbFilePath() string {
+	dataDir := os.Getenv("DATA_DIR")
+	if dataDir == "" {
+		return "db.json"
+	}
+	return filepath.Join(dataDir, "db.json")
+}
 
 var (
 	// Database file sync
@@ -136,7 +143,8 @@ func readDb() (Database, error) {
 	defer dbLock.RUnlock()
 
 	var db Database
-	if _, err := os.Stat(DB_FILE); os.IsNotExist(err) {
+	dbFile := getDbFilePath()
+	if _, err := os.Stat(dbFile); os.IsNotExist(err) {
 		db.Users = make(map[string]User)
 		
 		hashedPassword, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
@@ -164,7 +172,7 @@ func readDb() (Database, error) {
 		return db, nil
 	}
 
-	data, err := os.ReadFile(DB_FILE)
+	data, err := os.ReadFile(getDbFilePath())
 	if err != nil {
 		return db, err
 	}
@@ -190,7 +198,7 @@ func writeDb(db Database) error {
 		return err
 	}
 
-	return os.WriteFile(DB_FILE, data, 0644)
+	return os.WriteFile(getDbFilePath(), data, 0644)
 }
 
 // --- RPG Logic Functions ---
@@ -1354,7 +1362,10 @@ func main() {
 		http.FileServer(http.Dir(publicPath)).ServeHTTP(w, r)
 	})
 
-	port := "3000"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
 	fmt.Printf("RPG Portal Server (Go) running at http://localhost:%s\n", port)
 	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		log.Fatal("Server failed:", err)
