@@ -80,7 +80,6 @@ fi
 
 # Always copy configs in case they changed
 docker cp nginx/default.conf code-clash-nginx:/etc/nginx/conf.d/default.conf
-docker cp nginx/code-clash.inc code-clash-nginx:/etc/nginx/conf.d/code-clash.inc
 
 # Update the code-clash.inc file inside the container
 docker exec code-clash-nginx sh -c "echo 'proxy_pass http://host.docker.internal:$IDLE_PORT;' > /etc/nginx/conf.d/code-clash.inc"
