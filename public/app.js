@@ -138,6 +138,7 @@ function switchToDashboard() {
       }
     }
     renderCharacter();
+    renderShop();
   }
 }
 
@@ -309,14 +310,14 @@ function renderCharacter() {
   // Avatar Images
   const avatarImages = {
     GopherWarrior: 'assets/gopher_warrior.jpg',
-    RoutineMage: 'assets/gopher_mage.jpg',
+    RoutineMage: 'assets/go_mage_full.jpg',
     FerrisKnight: 'assets/ferris_knight.jpg',
-    BorrowCheckerRogue: 'assets/ferris_rogue.jpg',
-    NodeNinja: 'assets/node_ninja.jpg',
+    BorrowCheckerRogue: 'assets/rust_rogue_full.jpg',
+    NodeNinja: 'assets/node_ninja_full.jpg',
     NodeSummoner: 'assets/node_summoner.jpg',
     PythonRanger: 'assets/python_ranger.jpg',
-    PythonBerserker: 'assets/python_berserker.jpg',
-    JavaKnight: 'assets/java_knight.jpg',
+    PythonBerserker: 'assets/python_warrior_full.jpg',
+    JavaKnight: 'assets/java_knight_full.jpg',
     JavaCleric: 'assets/java_cleric.jpg'
   };
   document.getElementById('char-avatar-img').src = avatarImages[char.class] || 'assets/gopher_warrior.jpg';
@@ -598,13 +599,16 @@ function renderShop() {
     "ring":   { id: "ring", name: "Ownership Ring", type: "ring", slot: "ring", cost: 100, stats: { luck: 8 }, description: "+8 Luck (Rust Accessory)" },
   };
 
-  const ul = document.getElementById('shop-items-list');
+  const shopList = document.querySelector('.shop-item-list');
+  if (!shopList) return;
+  shopList.innerHTML = '';
+  const ul = shopList;
   if (!ul) return;
   ul.innerHTML = '';
   
   Object.values(shopData).forEach(item => {
     const li = document.createElement('li');
-    li.className = 'shop-item';
+    li.className = 'shop-item-card'; li.dataset.shopItem = item.id;
     
     // Check if affordable
     const canAfford = state.character.gold >= item.cost;
@@ -641,7 +645,7 @@ function renderShop() {
   // Attach buy listeners
   document.querySelectorAll('.buy-btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
-      const itemId = e.target.getAttribute('data-id');
+      const itemId = e.target.getAttribute('data-item-id') || e.target.getAttribute('data-id');
       try {
         const data = await apiFetch(`${API_BASE}/shop/buy`, {
           method: 'POST',

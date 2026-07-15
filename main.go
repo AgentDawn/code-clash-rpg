@@ -71,6 +71,11 @@ type User struct {
 	Character    Character `json:"character" gorm:"embedded"`
 }
 
+func (u *User) AfterFind(tx *gorm.DB) (err error) {
+	recalculateCharacter(&u.Character)
+	return
+}
+
 type ChatMessage struct {
 	ID        uint      `json:"id" gorm:"primaryKey"`
 	Username  string    `json:"username"`
