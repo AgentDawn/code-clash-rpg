@@ -12,7 +12,8 @@
   <script>
     window.INITIAL_STATE = {{if .LoggedIn}} {
       character: {{.CharacterJSON}},
-      role: "{{.Role}}"
+      role: "{{.Role}}",
+      isGuest: {{.IsGuest}}
     } {{else}} null {{end}};
   </script>
 </head>
@@ -38,12 +39,12 @@
 
         <!-- Tab switches -->
         <div class="auth-tabs">
-          <button id="tab-login-btn" class="tab-btn active">로그인</button>
-          <button id="tab-register-btn" class="tab-btn">캐릭터 생성</button>
+          <button id="tab-register-btn" class="tab-btn active">캐릭터 생성</button>
+          <button id="tab-login-btn" class="tab-btn">로그인</button>
         </div>
 
         <!-- Login Form -->
-        <form id="login-form" class="auth-form">
+        <form id="login-form" class="auth-form hidden">
           <div class="form-group">
             <label for="login-username">모험가 ID</label>
             <input type="text" id="login-username" placeholder="ID를 입력하세요..." required autocomplete="username">
@@ -53,23 +54,10 @@
             <input type="password" id="login-password" placeholder="비밀번호를 입력하세요..." required autocomplete="current-password">
           </div>
           <button type="submit" class="rpg-btn btn-primary">길드 입장</button>
-          
-          <div style="text-align: center; margin-top: 15px; margin-bottom: 10px;">
-            <span style="color: var(--text-muted); font-size: 0.9rem;">또는</span>
-          </div>
-          <button type="button" id="guest-login-btn" class="rpg-btn btn-secondary" style="width: 100%; border-color: var(--text-muted); color: var(--text-secondary);">비회원으로 시작하기</button>
         </form>
 
         <!-- Register Form -->
-        <form id="register-form" class="auth-form hidden">
-          <div class="form-group">
-            <label for="register-username">모험가 ID</label>
-            <input type="text" id="register-username" placeholder="원하는 ID를 입력하세요..." required autocomplete="username">
-          </div>
-          <div class="form-group">
-            <label for="register-password">비밀번호</label>
-            <input type="password" id="register-password" placeholder="비밀번호를 설정하세요..." required autocomplete="new-password">
-          </div>
+        <form id="register-form" class="auth-form">
           <div class="form-group">
             <label for="register-char-name">캐릭터 이름</label>
             <input type="text" id="register-char-name" placeholder="캐릭터 이름을 지어주세요..." required>
@@ -193,7 +181,7 @@
 
           </div>
 
-          <button type="submit" class="rpg-btn btn-primary">새 모험 시작</button>
+          <button type="submit" class="rpg-btn btn-primary">비회원으로 시작하기</button>
         </form>
       </div>
     </div>
@@ -234,6 +222,7 @@
           <span class="header-logo">CODE CLASH PORTAL <span style="font-size: 0.5em; color: var(--gold); margin-left: 5px; vertical-align: middle;">v1.0.0</span></span>
         </div>
         <div class="header-user-info">
+          <button id="link-account-btn" class="rpg-btn btn-primary btn-sm hidden" style="margin-right: 10px; background: var(--gold); color: black;">계정 연동하기</button>
           <span class="logged-in-label">지정된 모험가:</span>
           <span id="player-username" class="player-name-tag">Username</span>
           <button id="logout-btn" class="rpg-btn btn-secondary btn-sm">마을 나가기 (로그아웃)</button>
@@ -631,6 +620,28 @@
       </main>
     </div>
 
+  </div>
+
+  <!-- Link Account Modal -->
+  <div id="link-account-modal" class="modal-overlay hidden">
+    <div class="modal-content auth-card">
+      <h2 style="margin-bottom: 20px; color: var(--gold); font-family: var(--font-title); font-weight: 700;">계정 연동하기</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">ID와 비밀번호를 설정하시면 다른 기기에서도 로그인하여 이어서 플레이할 수 있습니다.</p>
+      <form id="link-account-form" class="auth-form">
+        <div class="form-group">
+          <label for="link-username">새 모험가 ID</label>
+          <input type="text" id="link-username" placeholder="원하는 ID를 입력하세요..." required>
+        </div>
+        <div class="form-group">
+          <label for="link-password">새 비밀번호</label>
+          <input type="password" id="link-password" placeholder="비밀번호를 설정하세요..." required>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="button" id="link-cancel-btn" class="rpg-btn btn-secondary" style="flex: 1;">취소</button>
+          <button type="submit" class="rpg-btn btn-primary" style="flex: 1;">연동하기</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="app.js?v=2"></script>

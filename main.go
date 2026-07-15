@@ -66,6 +66,7 @@ type Character struct {
 type User struct {
 	Username  string    `json:"username" gorm:"primaryKey"`
 	Password  string    `json:"password"`
+	IsGuest   bool      `json:"is_guest"`
 	Character Character `json:"character" gorm:"embedded"`
 }
 
@@ -331,17 +332,17 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if req.Username == "" || req.Password == "" || req.CharClass == "" || req.CharName == "" {
-		errorResponse(w, http.StatusBadRequest, "All fields are required")
+	if req.CharClass == "" || req.CharName == "" {
+		errorResponse(w, http.StatusBadRequest, "Character Name and Class are required")
 		return
 	}
 
-	normalizedUser := strings.ToLower(strings.TrimSpace(req.Username))
-	var existing User
-	if err := db.Where("username = ?", normalizedUser).First(&existing).Error; err == nil {
-		errorResponse(w, http.StatusBadRequest, "Username already exists")
-		return
-	}
+	// Generate a random guest ID
+	b := make([]byte, 4)
+	crand.Read(b)
+	guestID := fmt.Sprintf("guest_%s", hex.EncodeToString(b))
+	guestPassword := hex.EncodeToString(b)
+	normalizedUser := guestID
 
 	// Class-based initial stats
 	var baseStats Stats
@@ -388,7 +389,7 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	recalculateCharacter(&char)
 	char.HP = char.MaxHP // Maximize HP initially
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(guestPassword), bcrypt.DefaultCost)
 	if err != nil {
 		errorResponse(w, http.StatusInternalServerError, "Failed to hash password")
 		return
@@ -397,6 +398,7 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	newUser := User{
 		Username:  normalizedUser,
 		Password:  string(hashedPassword),
+		IsGuest:   true,
 		Character: char,
 	}
 	if err := db.Create(&newUser).Error; err != nil {
@@ -422,6 +424,7 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
 		"message":   "Registration successful",
 		"character": char,
+		"isGuest":   true,
 	})
 }
 
@@ -481,103 +484,75 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		"message":   "Login successful",
 		"character": char,
 		"role":      role,
+		"isGuest":   user.IsGuest,
 	})
 }
 
-func guestLoginHandler(w http.ResponseWriter, r *http.Request) {
+func linkAccountHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		errorResponse(w, http.StatusMethodNotAllowed, "Method not allowed")
 		return
 	}
 
-	
-
-	// Generate random guest ID and password
-	b := make([]byte, 4)
-	crand.Read(b)
-	guestID := fmt.Sprintf("guest_%s", hex.EncodeToString(b))
-	guestPassword := hex.EncodeToString(b) // Use the same random string as password for simplicity
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(guestPassword), bcrypt.DefaultCost)
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to create guest user")
+	username, ok := getLoggedInUser(r)
+	if !ok {
+		errorResponse(w, http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	classes := []string{"GopherWarrior", "RoutineMage", "FerrisKnight", "BorrowCheckerRogue"}
-	charClass := classes[rand.IntN(len(classes))]
-
-	var baseStats Stats
-	var equipment Equipment
-
-	switch charClass {
-	case "GopherWarrior":
-		baseStats = Stats{Strength: 13, Intelligence: 8, Dexterity: 11, Luck: 10}
-		weaponStr := "sword"
-		equipment.Weapon = &weaponStr
-	case "RoutineMage":
-		baseStats = Stats{Strength: 6, Intelligence: 15, Dexterity: 8, Luck: 11}
-		weaponStr := "staff"
-		equipment.Weapon = &weaponStr
-	case "FerrisKnight":
-		baseStats = Stats{Strength: 11, Intelligence: 8, Dexterity: 8, Luck: 13}
-		armorStr := "armor"
-		equipment.Armor = &armorStr
-	case "BorrowCheckerRogue":
-		baseStats = Stats{Strength: 8, Intelligence: 10, Dexterity: 14, Luck: 10}
-		ringStr := "ring"
-		equipment.Ring = &ringStr
+	var req AuthRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		errorResponse(w, http.StatusBadRequest, "Invalid request body")
+		return
 	}
 
-	char := Character{
-		Name:       guestID, // Use ID as character name
-		Class:      charClass,
-		Level:      1,
-		XP:         0,
-		XPNeeded:   100,
-		Gold:       0,
-		BaseStats:  baseStats,
-		HP:         baseStats.Strength * 10,
-		MaxHP:      baseStats.Strength * 10,
-		MP:         baseStats.Intelligence * 5,
-		MaxMP:      baseStats.Intelligence * 5,
-		Equipment:  equipment,
-		Inventory:  []string{},
-		Logs:       []string{fmt.Sprintf("Welcome, Guest %s! The realm of Aetheria awaits.", guestID)},
+	if req.Username == "" || req.Password == "" {
+		errorResponse(w, http.StatusBadRequest, "Username and Password are required")
+		return
 	}
 
-	recalculateCharacter(&char)
-
-	guestUser := User{
-		Username:  guestID,
-		Password:  string(hashedPassword),
-		Character: char,
+	var user User
+	if err := db.First(&user, "username = ?", username).Error; err != nil {
+		errorResponse(w, http.StatusUnauthorized, "User not found")
+		return
 	}
-	db.Create(&guestUser)
 
-	// Create session
-	sessID := generateSessionID()
+	if !user.IsGuest {
+		errorResponse(w, http.StatusBadRequest, "Account is already linked")
+		return
+	}
+
+	newUsername := strings.ToLower(strings.TrimSpace(req.Username))
+	
+	// Check if new username exists
+	var existing User
+	if err := db.Where("username = ?", newUsername).First(&existing).Error; err == nil {
+		errorResponse(w, http.StatusBadRequest, "Username already taken")
+		return
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Failed to hash password")
+		return
+	}
+
+	// In GORM, changing the primary key means we need to insert a new record and delete the old one, OR update the column directly.
+	// We'll update the column directly using db.Exec to be safe.
+	err = db.Exec("UPDATE users SET username = ?, password = ?, is_guest = ? WHERE username = ?", newUsername, string(hashedPassword), false, username).Error
+	if err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Failed to update account")
+		return
+	}
+
+	// Update session
+	cookie, _ := r.Cookie(SESSION_NAME)
 	sessionsLock.Lock()
-	sessions[sessID] = guestID
+	sessions[cookie.Value] = newUsername
 	sessionsLock.Unlock()
 
-	http.SetCookie(w, &http.Cookie{
-		Name:     SESSION_NAME,
-		Value:    sessID,
-		Path:     "/",
-		HttpOnly: true,
-		MaxAge:   86400,
-		SameSite: http.SameSiteLaxMode,
-	})
-
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
-		"message":   "Guest Login successful",
-		"character": char,
-		"role":      "user",
-		"guestCredentials": map[string]string{
-			"username": guestID,
-			"password": guestPassword,
-		},
+		"message": "Account linked successfully",
 	})
 }
 
@@ -1247,7 +1222,7 @@ func main() {
 	// API Route mappings
 	http.HandleFunc("/api/register", registerHandler)
 	http.HandleFunc("/api/login", loginHandler)
-	http.HandleFunc("/api/guest-login", guestLoginHandler)
+	http.HandleFunc("/api/link-account", linkAccountHandler)
 	http.HandleFunc("/api/logout", logoutHandler)
 	http.HandleFunc("/api/me", meHandler)
 	http.HandleFunc("/api/quest", questHandler)
@@ -1276,6 +1251,7 @@ func main() {
 				LoggedIn      bool
 				Role          string
 				CharacterJSON template.JS
+				IsGuest       bool
 			}
 			data := TemplateData{LoggedIn: false}
 
@@ -1290,8 +1266,10 @@ func main() {
 						} else {
 							data.Role = "user"
 						}
+						
 						charBytes, _ := json.Marshal(user.Character)
 						data.CharacterJSON = template.JS(charBytes)
+						data.IsGuest = user.IsGuest
 					}
 			}
 

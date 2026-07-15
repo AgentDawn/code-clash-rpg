@@ -5,6 +5,8 @@ const API_BASE = '/api';
 // Application State
 let state = {
   character: null,
+  role: null,
+  isGuest: false,
   questInterval: null,
   questEndTime: null
 };
@@ -105,30 +107,10 @@ async function checkSession() {
   if (window.INITIAL_STATE) {
     state.character = window.INITIAL_STATE.character;
     state.role = window.INITIAL_STATE.role;
+    state.isGuest = window.INITIAL_STATE.isGuest;
     showToast(`${state.character.name} 모험가님, 접속을 환영합니다!`, 'success');
     switchToDashboard();
   } else {
-    // Not logged in via session cookie. Try localStorage guest credentials.
-    const guestCreds = localStorage.getItem('guest_credentials');
-    if (guestCreds) {
-      try {
-        const { username, password } = JSON.parse(guestCreds);
-        const data = await apiFetch(`${API_BASE}/login`, {
-          method: 'POST',
-          body: { username, password },
-          hideErrorToast: true
-        });
-        state.character = data.character;
-        state.role = data.role;
-        showToast(`게스트 계정(${username})으로 자동 접속되었습니다.`, 'success');
-        switchToDashboard();
-        return;
-      } catch (err) {
-        // Guest login failed (e.g., server wiped DB). Clear it.
-        localStorage.removeItem('guest_credentials');
-      }
-    }
-    
     switchToAuth();
   }
 }
@@ -147,6 +129,14 @@ function switchToDashboard() {
     gameDashboard.classList.remove('hidden');
     // Set navbar name
     document.getElementById('player-username').innerText = state.character.name;
+    const linkBtn = document.getElementById('link-account-btn');
+    if (linkBtn) {
+      if (state.isGuest) {
+        linkBtn.classList.remove('hidden');
+      } else {
+        linkBtn.classList.add('hidden');
+      }
+    }
     renderCharacter();
   }
 }
@@ -195,6 +185,7 @@ loginForm.addEventListener('submit', async (e) => {
     });
     state.character = data.character;
     state.role = data.role;
+    state.isGuest = data.isGuest;
     showToast('로그인 성공!', 'success');
     switchToDashboard();
   } catch (err) {
@@ -202,43 +193,21 @@ loginForm.addEventListener('submit', async (e) => {
   }
 });
 
-// Submit Guest Login
-document.getElementById('guest-login-btn')?.addEventListener('click', async () => {
-  try {
-    const data = await apiFetch(`${API_BASE}/guest-login`, {
-      method: 'POST'
-    });
-    state.character = data.character;
-    state.role = data.role;
-    
-    // Save to localStorage for auto-login
-    if (data.guestCredentials) {
-      localStorage.setItem('guest_credentials', JSON.stringify(data.guestCredentials));
-    }
-    
-    showToast('비회원 접속 성공!', 'success');
-    switchToDashboard();
-  } catch (err) {
-    // Handled by apiFetch toast
-  }
-});
-
-// Submit Registration
+// Submit Registration (Start as Guest)
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const username = document.getElementById('register-username').value;
-  const password = document.getElementById('register-password').value;
   const charName = document.getElementById('register-char-name').value;
   const charClass = document.querySelector('input[name="charClass"]:checked').value;
 
   try {
     const data = await apiFetch(`${API_BASE}/register`, {
       method: 'POST',
-      body: { username, password, charClass, charName }
+      body: { charClass, charName }
     });
     state.character = data.character;
     state.role = 'user';
-    showToast('새로운 모험가가 등록되었습니다!', 'success');
+    state.isGuest = data.isGuest;
+    showToast('비회원 계정으로 새로운 모험이 시작되었습니다!', 'success');
     switchToDashboard();
   } catch (err) {
     // Handled by apiFetch toast
@@ -248,7 +217,6 @@ registerForm.addEventListener('submit', async (e) => {
 // Logout
 logoutBtn.addEventListener('click', async () => {
   try {
-    localStorage.removeItem('guest_credentials');
     await apiFetch(`${API_BASE}/logout`, { method: 'POST' });
     showToast('안전하게 로그아웃 되었습니다.', 'info');
     switchToAuth();
@@ -257,6 +225,47 @@ logoutBtn.addEventListener('click', async () => {
     switchToAuth();
   }
 });
+
+// Link Account Modal Logic
+const linkAccountBtn = document.getElementById('link-account-btn');
+const linkAccountModal = document.getElementById('link-account-modal');
+const linkCancelBtn = document.getElementById('link-cancel-btn');
+const linkAccountForm = document.getElementById('link-account-form');
+
+if (linkAccountBtn) {
+  linkAccountBtn.addEventListener('click', () => {
+    linkAccountModal.classList.remove('hidden');
+  });
+}
+
+if (linkCancelBtn) {
+  linkCancelBtn.addEventListener('click', () => {
+    linkAccountModal.classList.add('hidden');
+  });
+}
+
+if (linkAccountForm) {
+  linkAccountForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('link-username').value;
+    const password = document.getElementById('link-password').value;
+
+    try {
+      await apiFetch(`${API_BASE}/link-account`, {
+        method: 'POST',
+        body: { username, password }
+      });
+      state.isGuest = false;
+      showToast('성공적으로 계정이 연동되었습니다! 이제부터 이 ID로 로그인할 수 있습니다.', 'success');
+      linkAccountModal.classList.add('hidden');
+      if (document.getElementById('link-account-btn')) {
+        document.getElementById('link-account-btn').classList.add('hidden');
+      }
+    } catch (err) {
+      // Handled by apiFetch
+    }
+  });
+}
 
 // Rendering Character Sheet
 function renderCharacter() {
@@ -650,7 +659,6 @@ function renderShop() {
 // --- Admin Dashboard Logic ---
 document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
   try {
-    localStorage.removeItem('guest_credentials');
     await apiFetch(`${API_BASE}/logout`, { method: 'POST' });
     showToast('관리자 로그아웃 되었습니다.', 'info');
     switchToAuth();
