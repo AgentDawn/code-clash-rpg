@@ -9,8 +9,9 @@ IMAGE=${IMAGE_TAG:-"ghcr.io/agentdawn/code-clash-rpg:latest"}
 
 echo "Preparing deployment using image: $IMAGE"
 
-# Ensure the data volume exists
-docker volume create code-clash-data
+# Create local data directory for bind mount
+HOST_DATA_DIR="C:/Users/chou6/OneDrive/Desktop/code-rpg/code-clash-rpg/data"
+mkdir -p "$HOST_DATA_DIR"
 
 # Pull the latest image
 docker pull $IMAGE
@@ -42,7 +43,7 @@ docker run -d \
     -p $IDLE_PORT:3000 \
     -e PORT=3000 \
     -e DATA_DIR=/app/data \
-    -v code-clash-data:/app/data \
+    -v "$HOST_DATA_DIR:/app/data" \
     $IMAGE
 
 echo "Waiting for health check..."
