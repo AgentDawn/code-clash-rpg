@@ -64,10 +64,20 @@ type Character struct {
 }
 
 type User struct {
-	Username  string    `json:"username" gorm:"primaryKey"`
-	Password  string    `json:"password"`
-	IsGuest   bool      `json:"is_guest"`
-	Character Character `json:"character" gorm:"embedded"`
+	Username     string    `json:"username" gorm:"primaryKey"`
+	Password     string    `json:"password"`
+	IsGuest      bool      `json:"is_guest"`
+	LastActiveAt time.Time `json:"last_active_at"`
+	Character    Character `json:"character" gorm:"embedded"`
+}
+
+type ChatMessage struct {
+	ID        uint      `json:"id" gorm:"primaryKey"`
+	Username  string    `json:"username"`
+	CharName  string    `json:"charName"`
+	Class     string    `json:"class"`
+	Message   string    `json:"message"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // Static Metadata definitions
@@ -134,6 +144,8 @@ var (
 	// In-memory Session store mapping
 	sessionsLock sync.RWMutex
 	sessions     = make(map[string]string) // SessionID -> Username
+
+	lastActiveUpdate sync.Map
 )
 
 // --- Database Helper Functions ---
@@ -151,7 +163,7 @@ func initDB() {
 	}
 
 	// Auto Migrate the schema
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&User{}, &ChatMessage{})
 
 	// Seed admin if not exists
 	var admin User
@@ -272,9 +284,19 @@ func getLoggedInUser(r *http.Request) (string, bool) {
 	}
 
 	sessionsLock.RLock()
-	defer sessionsLock.RUnlock()
-
 	username, ok := sessions[cookie.Value]
+	sessionsLock.RUnlock()
+
+	if ok {
+		last, loaded := lastActiveUpdate.Load(username)
+		if !loaded || time.Since(last.(time.Time)) > time.Minute {
+			lastActiveUpdate.Store(username, time.Now())
+			go func(u string) {
+				db.Model(&User{}).Where("username = ?", u).Update("last_active_at", time.Now())
+			}(username)
+		}
+	}
+
 	return username, ok
 }
 
@@ -1222,6 +1244,122 @@ func huntHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// --- Multiplayer Handlers ---
+
+func activePlayersHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		errorResponse(w, http.StatusMethodNotAllowed, "Method not allowed")
+		return
+	}
+	// Active in last 10 minutes
+	tenMinsAgo := time.Now().Add(-10 * time.Minute)
+	var activeUsers []User
+	if err := db.Where("last_active_at > ?", tenMinsAgo).Order("last_active_at desc").Limit(20).Find(&activeUsers).Error; err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Failed to fetch active players")
+		return
+	}
+	
+	type ActivePlayer struct {
+		Username string `json:"username"`
+		CharName string `json:"charName"`
+		Class    string `json:"class"`
+		Level    int    `json:"level"`
+	}
+	var res []ActivePlayer
+	for _, u := range activeUsers {
+		res = append(res, ActivePlayer{
+			Username: u.Username,
+			CharName: u.Character.Name,
+			Class:    u.Character.Class,
+			Level:    u.Character.Level,
+		})
+	}
+	jsonResponse(w, http.StatusOK, res)
+}
+
+func chatHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		var msgs []ChatMessage
+		db.Order("created_at desc").Limit(50).Find(&msgs)
+		// Reverse to chronological
+		for i, j := 0, len(msgs)-1; i < j; i, j = i+1, j-1 {
+			msgs[i], msgs[j] = msgs[j], msgs[i]
+		}
+		jsonResponse(w, http.StatusOK, msgs)
+		return
+	}
+	
+	if r.Method == http.MethodPost {
+		username, ok := getLoggedInUser(r)
+		if !ok {
+			errorResponse(w, http.StatusUnauthorized, "Not logged in")
+			return
+		}
+		
+		var req struct {
+			Message string `json:"message"`
+		}
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil || strings.TrimSpace(req.Message) == "" {
+			errorResponse(w, http.StatusBadRequest, "Invalid message")
+			return
+		}
+		
+		var user User
+		if err := db.First(&user, "username = ?", username).Error; err != nil {
+			errorResponse(w, http.StatusNotFound, "User not found")
+			return
+		}
+		
+		msg := ChatMessage{
+			Username: user.Username,
+			CharName: user.Character.Name,
+			Class:    user.Character.Class,
+			Message:  strings.TrimSpace(req.Message),
+		}
+		db.Create(&msg)
+		jsonResponse(w, http.StatusOK, map[string]string{"status": "ok"})
+		return
+	}
+	
+	errorResponse(w, http.StatusMethodNotAllowed, "Method not allowed")
+}
+
+func interactHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		errorResponse(w, http.StatusMethodNotAllowed, "Method not allowed")
+		return
+	}
+	
+	username, ok := getLoggedInUser(r)
+	if !ok {
+		errorResponse(w, http.StatusUnauthorized, "Not logged in")
+		return
+	}
+	
+	var req struct {
+		TargetUsername string `json:"targetUsername"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		errorResponse(w, http.StatusBadRequest, "Invalid request")
+		return
+	}
+	
+	var sender, target User
+	if err := db.First(&sender, "username = ?", username).Error; err != nil {
+		return
+	}
+	if err := db.First(&target, "username = ?", req.TargetUsername).Error; err != nil {
+		errorResponse(w, http.StatusNotFound, "Target user not found")
+		return
+	}
+	
+	logMsg := fmt.Sprintf("👋 %s님이 당신에게 손을 흔들었습니다!", sender.Character.Name)
+	target.Character.Logs = append([]string{logMsg}, target.Character.Logs...)
+	db.Save(&target)
+	
+	jsonResponse(w, http.StatusOK, map[string]string{"status": "ok"})
+}
+
 // --- Main Server Setup ---
 
 func main() {
@@ -1238,6 +1376,9 @@ func main() {
 	http.HandleFunc("/api/item/action", itemActionHandler)
 	http.HandleFunc("/api/admin/war", adminWarHandler)
 	http.HandleFunc("/api/hunt", huntHandler)
+	http.HandleFunc("/api/active-players", activePlayersHandler)
+	http.HandleFunc("/api/chat", chatHandler)
+	http.HandleFunc("/api/interact", interactHandler)
 
 	// Serve frontend static assets from public folder
 	publicPath := filepath.Join(".", "public")

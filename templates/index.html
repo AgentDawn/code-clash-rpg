@@ -514,6 +514,25 @@
         <!-- RIGHT COLUMN: INVENTORY & MERCHANT SHOP -->
         <section class="dashboard-col inv-shop-col">
           
+          <!-- Town Square Panel -->
+          <div id="town-square-panel" class="rpg-panel town-square-panel">
+            <h2 class="panel-title"><span class="icon">⛺</span> 마을 광장</h2>
+            <p class="panel-desc">접속 중인 모험가들과 소통하세요.</p>
+            
+            <div class="active-players-list" id="active-players-list">
+              <p style="color: var(--text-dim); font-size: 0.8rem; text-align: center;">모험가 탐색 중...</p>
+            </div>
+
+            <div class="world-chat-container">
+              <div id="chat-messages" class="chat-messages-box">
+              </div>
+              <form id="chat-form" class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="메시지 입력..." autocomplete="off">
+                <button type="submit" class="rpg-btn btn-primary btn-sm" style="padding: 5px 10px;">전송</button>
+              </form>
+            </div>
+          </div>
+
           <!-- Inventory Panel -->
           <div class="rpg-panel inv-panel">
             <h2 class="panel-title"><span class="icon">🎒</span> 인벤토리</h2>

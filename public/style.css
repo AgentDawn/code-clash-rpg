@@ -1149,3 +1149,110 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+/* Town Square & Chat Styles */
+.town-square-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.active-players-list {
+  background: var(--surface-light);
+  border-radius: 8px;
+  padding: 10px;
+  max-height: 120px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border);
+}
+
+.active-player-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.active-player-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.active-player-item button {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 2px 5px;
+  transition: all 0.2s;
+}
+
+.active-player-item button:hover {
+  background: var(--gold);
+  color: black;
+}
+
+.world-chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-messages-box {
+  background: var(--surface-light);
+  border-radius: 8px;
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border);
+}
+
+.chat-msg {
+  font-size: 0.85rem;
+  line-height: 1.3;
+  word-break: break-all;
+}
+
+.chat-msg .chat-time {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  margin-right: 5px;
+}
+
+.chat-msg .chat-author {
+  font-weight: bold;
+  color: var(--gold);
+  margin-right: 5px;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input-area input {
+  flex: 1;
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.chat-input-area input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
