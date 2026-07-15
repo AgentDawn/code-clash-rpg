@@ -2,3 +2,6 @@ db.json
 cookie.txt
 node_modules/
 .DS_Store
+db.sqlite
+playwright-report/
+test-results/

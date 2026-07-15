@@ -562,6 +562,7 @@ document.querySelectorAll('.hunt-btn').forEach(btn => {
       });
       state.character = data.character;
       renderCharacter();
+      renderShop();
       if (data.won) {
         showToast(data.log, 'success');
       } else {

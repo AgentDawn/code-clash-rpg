@@ -1243,6 +1243,7 @@ func huntHandler(w http.ResponseWriter, r *http.Request) {
 			char.Level++
 			char.MaxHP += 20
 			char.HP = char.MaxHP
+			char.StatPoints += 5
 			logMsg += " 레벨 업!"
 		}
 	} else {

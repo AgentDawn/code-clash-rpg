@@ -63,6 +63,6 @@ test.describe('Authentication Flow', () => {
 ## Actionable Instructions
 
 - When triggered, review the target feature and propose the test scenarios in a short list.
-- **Proactive Coverage**: Proactively analyze the project's features, UI components, and API routes to identify core workflows that lack E2E test coverage. If you find uncovered scenarios, propose adding tests for them to the user.
+- **Proactive Coverage**: You MUST proactively analyze the project's features, UI components, and API routes to identify core workflows that lack E2E test coverage (e.g., chat systems, stat training, equipment systems, authentication flows). Do not just test a subset of features. If you find uncovered scenarios, you MUST write tests for them to ensure 100% functional UI coverage.
 - Generate the `.spec.ts` files containing the tests.
 - If Playwright is not yet installed in the project, provide the user with the setup command (`npm init playwright@latest`) or run it if you have permission.
