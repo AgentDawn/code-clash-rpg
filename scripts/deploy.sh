@@ -76,9 +76,11 @@ if ! docker ps --format '{{.Names}}' | grep -q "^code-clash-nginx$"; then
     echo "Starting Nginx container..."
     touch nginx/code-clash.inc
     docker run -d --name code-clash-nginx -p 80:80 nginx:alpine
-    docker cp nginx/default.conf code-clash-nginx:/etc/nginx/conf.d/default.conf
-    docker cp nginx/code-clash.inc code-clash-nginx:/etc/nginx/conf.d/code-clash.inc
 fi
+
+# Always copy configs in case they changed
+docker cp nginx/default.conf code-clash-nginx:/etc/nginx/conf.d/default.conf
+docker cp nginx/code-clash.inc code-clash-nginx:/etc/nginx/conf.d/code-clash.inc
 
 # Update the code-clash.inc file inside the container
 docker exec code-clash-nginx sh -c "echo 'set \$upstream_port $IDLE_PORT;' > /etc/nginx/conf.d/code-clash.inc"
