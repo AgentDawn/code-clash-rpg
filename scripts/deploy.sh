@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+export MSYS_NO_PATHCONV=1
 
 APP_NAME="code-clash-rpg"
 PORT_1=3001

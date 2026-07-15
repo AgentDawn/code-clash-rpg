@@ -1,0 +1,752 @@
+﻿build-and-push	Set up job	癤?026-07-15T04:55:26.1039500Z Current runner version: '2.335.1'
+build-and-push	Set up job	2026-07-15T04:55:26.1064450Z ##[group]Runner Image Provisioner
+build-and-push	Set up job	2026-07-15T04:55:26.1065284Z Hosted Compute Agent
+build-and-push	Set up job	2026-07-15T04:55:26.1065810Z Version: 20260624.560
+build-and-push	Set up job	2026-07-15T04:55:26.1066443Z Commit: 925d229a51159bc391ae97e54a2dd1fe20af789d
+build-and-push	Set up job	2026-07-15T04:55:26.1067095Z Build Date: 2026-06-24T18:26:47Z
+build-and-push	Set up job	2026-07-15T04:55:26.1067724Z Worker ID: {ea47911c-067d-4095-ab0b-3de813d90548}
+build-and-push	Set up job	2026-07-15T04:55:26.1068371Z Azure Region: westus2
+build-and-push	Set up job	2026-07-15T04:55:26.1068886Z ##[endgroup]
+build-and-push	Set up job	2026-07-15T04:55:26.1070251Z ##[group]Operating System
+build-and-push	Set up job	2026-07-15T04:55:26.1070818Z Ubuntu
+build-and-push	Set up job	2026-07-15T04:55:26.1071386Z 24.04.4
+build-and-push	Set up job	2026-07-15T04:55:26.1071895Z LTS
+build-and-push	Set up job	2026-07-15T04:55:26.1072405Z ##[endgroup]
+build-and-push	Set up job	2026-07-15T04:55:26.1072902Z ##[group]Runner Image
+build-and-push	Set up job	2026-07-15T04:55:26.1073767Z Image: ubuntu-24.04
+build-and-push	Set up job	2026-07-15T04:55:26.1074307Z Version: 20260705.232.1
+build-and-push	Set up job	2026-07-15T04:55:26.1075271Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260705.232/images/ubuntu/Ubuntu2404-Readme.md
+build-and-push	Set up job	2026-07-15T04:55:26.1076751Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260705.232
+build-and-push	Set up job	2026-07-15T04:55:26.1077644Z ##[endgroup]
+build-and-push	Set up job	2026-07-15T04:55:26.1078732Z ##[group]GITHUB_TOKEN Permissions
+build-and-push	Set up job	2026-07-15T04:55:26.1080626Z Contents: read
+build-and-push	Set up job	2026-07-15T04:55:26.1081160Z Metadata: read
+build-and-push	Set up job	2026-07-15T04:55:26.1082072Z Packages: write
+build-and-push	Set up job	2026-07-15T04:55:26.1082614Z ##[endgroup]
+build-and-push	Set up job	2026-07-15T04:55:26.1084995Z Secret source: Actions
+build-and-push	Set up job	2026-07-15T04:55:26.1085780Z Prepare workflow directory
+build-and-push	Set up job	2026-07-15T04:55:26.1574205Z Prepare all required actions
+build-and-push	Set up job	2026-07-15T04:55:26.1613362Z Getting action download info
+build-and-push	Set up job	2026-07-15T04:55:26.5039724Z Download action repository 'actions/checkout@v3' (SHA:f43a0e5ff2bd294095638e18286ca9a3d1956744)
+build-and-push	Set up job	2026-07-15T04:55:26.5895763Z Download action repository 'docker/login-action@v2' (SHA:465a07811f14bebb1938fbed4728c6a1ff8901fc)
+build-and-push	Set up job	2026-07-15T04:55:26.8027801Z Download action repository 'docker/build-push-action@v4' (SHA:0a97817b6ade9f46837855d676c4cca3a2471fc9)
+build-and-push	Set up job	2026-07-15T04:55:27.1760614Z Complete job name: build-and-push
+build-and-push	Checkout Code	癤?026-07-15T04:55:27.2498771Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push	Checkout Code	2026-07-15T04:55:27.2510159Z ##[group]Run actions/checkout@v3
+build-and-push	Checkout Code	2026-07-15T04:55:27.2511562Z with:
+build-and-push	Checkout Code	2026-07-15T04:55:27.2512655Z   repository: AgentDawn/code-clash-rpg
+build-and-push	Checkout Code	2026-07-15T04:55:27.2521786Z   token: ***
+build-and-push	Checkout Code	2026-07-15T04:55:27.2522745Z   ssh-strict: true
+build-and-push	Checkout Code	2026-07-15T04:55:27.2523800Z   persist-credentials: true
+build-and-push	Checkout Code	2026-07-15T04:55:27.2524812Z   clean: true
+build-and-push	Checkout Code	2026-07-15T04:55:27.2525793Z   sparse-checkout-cone-mode: true
+build-and-push	Checkout Code	2026-07-15T04:55:27.2526893Z   fetch-depth: 1
+build-and-push	Checkout Code	2026-07-15T04:55:27.2528043Z   fetch-tags: false
+build-and-push	Checkout Code	2026-07-15T04:55:27.2528965Z   lfs: false
+build-and-push	Checkout Code	2026-07-15T04:55:27.2529868Z   submodules: false
+build-and-push	Checkout Code	2026-07-15T04:55:27.2530874Z   set-safe-directory: true
+build-and-push	Checkout Code	2026-07-15T04:55:27.2532224Z env:
+build-and-push	Checkout Code	2026-07-15T04:55:27.2641023Z   REGISTRY: ghcr.io
+build-and-push	Checkout Code	2026-07-15T04:55:27.2642173Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+build-and-push	Checkout Code	2026-07-15T04:55:27.2643560Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:27.3426930Z (node:2100) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build-and-push	Checkout Code	2026-07-15T04:55:27.3429461Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-push	Checkout Code	2026-07-15T04:55:27.3535534Z Syncing repository: AgentDawn/code-clash-rpg
+build-and-push	Checkout Code	2026-07-15T04:55:27.3538448Z ##[group]Getting Git version info
+build-and-push	Checkout Code	2026-07-15T04:55:27.3540014Z Working directory is '/home/runner/work/code-clash-rpg/code-clash-rpg'
+build-and-push	Checkout Code	2026-07-15T04:55:27.3542242Z [command]/usr/bin/git version
+build-and-push	Checkout Code	2026-07-15T04:55:27.3562106Z git version 2.54.0
+build-and-push	Checkout Code	2026-07-15T04:55:27.3583426Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:27.3595727Z Temporarily overriding HOME='/home/runner/work/_temp/5c96b305-a563-40f7-a284-52571002eb3b' before making global git config changes
+build-and-push	Checkout Code	2026-07-15T04:55:27.3598967Z Adding repository directory to the temporary git global config as a safe directory
+build-and-push	Checkout Code	2026-07-15T04:55:27.3602113Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/code-clash-rpg/code-clash-rpg
+build-and-push	Checkout Code	2026-07-15T04:55:27.3641869Z Deleting the contents of '/home/runner/work/code-clash-rpg/code-clash-rpg'
+build-and-push	Checkout Code	2026-07-15T04:55:27.3645653Z ##[group]Initializing the repository
+build-and-push	Checkout Code	2026-07-15T04:55:27.3648887Z [command]/usr/bin/git init /home/runner/work/code-clash-rpg/code-clash-rpg
+build-and-push	Checkout Code	2026-07-15T04:55:27.3737122Z hint: Using 'master' as the name for the initial branch. This default branch name
+build-and-push	Checkout Code	2026-07-15T04:55:27.3739395Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build-and-push	Checkout Code	2026-07-15T04:55:27.3741269Z hint: to use in all of your new repositories, which will suppress this warning,
+build-and-push	Checkout Code	2026-07-15T04:55:27.3742698Z hint: call:
+build-and-push	Checkout Code	2026-07-15T04:55:27.3743705Z hint:
+build-and-push	Checkout Code	2026-07-15T04:55:27.3744714Z hint: 	git config --global init.defaultBranch <name>
+build-and-push	Checkout Code	2026-07-15T04:55:27.3745941Z hint:
+build-and-push	Checkout Code	2026-07-15T04:55:27.3747060Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build-and-push	Checkout Code	2026-07-15T04:55:27.3748908Z hint: 'development'. The just-created branch can be renamed via this command:
+build-and-push	Checkout Code	2026-07-15T04:55:27.3750337Z hint:
+build-and-push	Checkout Code	2026-07-15T04:55:27.3751154Z hint: 	git branch -m <name>
+build-and-push	Checkout Code	2026-07-15T04:55:27.3752092Z hint:
+build-and-push	Checkout Code	2026-07-15T04:55:27.3753613Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build-and-push	Checkout Code	2026-07-15T04:55:27.3759918Z Initialized empty Git repository in /home/runner/work/code-clash-rpg/code-clash-rpg/.git/
+build-and-push	Checkout Code	2026-07-15T04:55:27.3775729Z [command]/usr/bin/git remote add origin https://github.com/AgentDawn/code-clash-rpg
+build-and-push	Checkout Code	2026-07-15T04:55:27.3807499Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:27.3809399Z ##[group]Disabling automatic garbage collection
+build-and-push	Checkout Code	2026-07-15T04:55:27.3810739Z [command]/usr/bin/git config --local gc.auto 0
+build-and-push	Checkout Code	2026-07-15T04:55:27.3833494Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:27.3834950Z ##[group]Setting up auth
+build-and-push	Checkout Code	2026-07-15T04:55:27.3838174Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-push	Checkout Code	2026-07-15T04:55:27.3864613Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-push	Checkout Code	2026-07-15T04:55:27.4135659Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-push	Checkout Code	2026-07-15T04:55:27.4159219Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-push	Checkout Code	2026-07-15T04:55:27.4326962Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build-and-push	Checkout Code	2026-07-15T04:55:27.4359281Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:27.4361778Z ##[group]Fetching the repository
+build-and-push	Checkout Code	2026-07-15T04:55:27.4369522Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +97863783244a54b8da72f333228b37f0732f0c88:refs/remotes/origin/main
+build-and-push	Checkout Code	2026-07-15T04:55:27.7811349Z remote: Enumerating objects: 44, done.        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7812318Z remote: Counting objects:   2% (1/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7812943Z remote: Counting objects:   4% (2/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7813822Z remote: Counting objects:   6% (3/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7814305Z remote: Counting objects:   9% (4/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7814722Z remote: Counting objects:  11% (5/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7815142Z remote: Counting objects:  13% (6/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7815580Z remote: Counting objects:  15% (7/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7815998Z remote: Counting objects:  18% (8/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7816415Z remote: Counting objects:  20% (9/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7816832Z remote: Counting objects:  22% (10/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7817272Z remote: Counting objects:  25% (11/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7817697Z remote: Counting objects:  27% (12/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7818538Z remote: Counting objects:  29% (13/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7819059Z remote: Counting objects:  31% (14/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7819482Z remote: Counting objects:  34% (15/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7819905Z remote: Counting objects:  36% (16/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7820336Z remote: Counting objects:  38% (17/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7820757Z remote: Counting objects:  40% (18/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7821187Z remote: Counting objects:  43% (19/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7821610Z remote: Counting objects:  45% (20/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7822025Z remote: Counting objects:  47% (21/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7822443Z remote: Counting objects:  50% (22/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7822858Z remote: Counting objects:  52% (23/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7823528Z remote: Counting objects:  54% (24/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7823963Z remote: Counting objects:  56% (25/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7824389Z remote: Counting objects:  59% (26/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7824819Z remote: Counting objects:  61% (27/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7825244Z remote: Counting objects:  63% (28/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7825743Z remote: Counting objects:  65% (29/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7826335Z remote: Counting objects:  68% (30/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7826755Z remote: Counting objects:  70% (31/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7827168Z remote: Counting objects:  72% (32/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7827588Z remote: Counting objects:  75% (33/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7828007Z remote: Counting objects:  77% (34/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7828422Z remote: Counting objects:  79% (35/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7828842Z remote: Counting objects:  81% (36/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7829259Z remote: Counting objects:  84% (37/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7829676Z remote: Counting objects:  86% (38/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7830099Z remote: Counting objects:  88% (39/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7830722Z remote: Counting objects:  90% (40/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7831135Z remote: Counting objects:  93% (41/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7831547Z remote: Counting objects:  95% (42/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7831966Z remote: Counting objects:  97% (43/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7832382Z remote: Counting objects: 100% (44/44)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7832833Z remote: Counting objects: 100% (44/44), done.        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7833843Z remote: Compressing objects:   3% (1/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7834342Z remote: Compressing objects:   6% (2/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7834787Z remote: Compressing objects:   9% (3/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7835233Z remote: Compressing objects:  12% (4/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7835671Z remote: Compressing objects:  15% (5/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7836105Z remote: Compressing objects:  18% (6/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7836555Z remote: Compressing objects:  21% (7/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7837022Z remote: Compressing objects:  25% (8/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7837469Z remote: Compressing objects:  28% (9/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7837901Z remote: Compressing objects:  31% (10/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7838346Z remote: Compressing objects:  34% (11/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7838796Z remote: Compressing objects:  37% (12/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7839232Z remote: Compressing objects:  40% (13/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7839669Z remote: Compressing objects:  43% (14/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7840104Z remote: Compressing objects:  46% (15/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7840535Z remote: Compressing objects:  50% (16/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7840965Z remote: Compressing objects:  53% (17/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7841400Z remote: Compressing objects:  56% (18/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7841832Z remote: Compressing objects:  59% (19/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7842945Z remote: Compressing objects:  62% (20/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7844133Z remote: Compressing objects:  65% (21/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7844804Z remote: Compressing objects:  68% (22/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7845248Z remote: Compressing objects:  71% (23/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7845682Z remote: Compressing objects:  75% (24/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7846119Z remote: Compressing objects:  78% (25/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7846549Z remote: Compressing objects:  81% (26/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7846982Z remote: Compressing objects:  84% (27/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7847416Z remote: Compressing objects:  87% (28/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7847858Z remote: Compressing objects:  90% (29/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7848288Z remote: Compressing objects:  93% (30/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7848717Z remote: Compressing objects:  96% (31/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7849152Z remote: Compressing objects: 100% (32/32)        
+build-and-push	Checkout Code	2026-07-15T04:55:27.7849619Z remote: Compressing objects: 100% (32/32), done.        
+build-and-push	Checkout Code	2026-07-15T04:55:28.2511205Z remote: Total 44 (delta 6), reused 37 (delta 5), pack-reused 0 (from 0)        
+build-and-push	Checkout Code	2026-07-15T04:55:28.7346274Z From https://github.com/AgentDawn/code-clash-rpg
+build-and-push	Checkout Code	2026-07-15T04:55:28.7348348Z  * [new ref]         97863783244a54b8da72f333228b37f0732f0c88 -> origin/main
+build-and-push	Checkout Code	2026-07-15T04:55:28.7377836Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:28.7378588Z ##[group]Determining the checkout info
+build-and-push	Checkout Code	2026-07-15T04:55:28.7379958Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:28.7380630Z ##[group]Checking out the ref
+build-and-push	Checkout Code	2026-07-15T04:55:28.7385007Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build-and-push	Checkout Code	2026-07-15T04:55:28.8514792Z Switched to a new branch 'main'
+build-and-push	Checkout Code	2026-07-15T04:55:28.8515936Z branch 'main' set up to track 'origin/main'.
+build-and-push	Checkout Code	2026-07-15T04:55:28.8520822Z ##[endgroup]
+build-and-push	Checkout Code	2026-07-15T04:55:28.8556899Z [command]/usr/bin/git log -1 --format='%H'
+build-and-push	Checkout Code	2026-07-15T04:55:28.8576738Z '97863783244a54b8da72f333228b37f0732f0c88'
+build-and-push	Lowercase image name	癤?026-07-15T04:55:28.8765873Z ##[group]Run echo "IMAGE_NAME_LOWER=$(echo AgentDawn/code-clash-rpg | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+build-and-push	Lowercase image name	2026-07-15T04:55:28.8766908Z [36;1mecho "IMAGE_NAME_LOWER=$(echo AgentDawn/code-clash-rpg | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV[0m
+build-and-push	Lowercase image name	2026-07-15T04:55:28.8897735Z shell: /usr/bin/bash -e {0}
+build-and-push	Lowercase image name	2026-07-15T04:55:28.8898134Z env:
+build-and-push	Lowercase image name	2026-07-15T04:55:28.8898380Z   REGISTRY: ghcr.io
+build-and-push	Lowercase image name	2026-07-15T04:55:28.8898670Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+build-and-push	Lowercase image name	2026-07-15T04:55:28.8898979Z ##[endgroup]
+build-and-push	Log in to the Container registry	癤?026-07-15T04:55:28.9037197Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9038818Z ##[group]Run docker/login-action@v2
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9039125Z with:
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9039360Z   registry: ghcr.io
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9039616Z   username: AgentDawn
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9042398Z   password: ***
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9042646Z   ecr: auto
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9042871Z   logout: true
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9043325Z env:
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9043596Z   REGISTRY: ghcr.io
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9043868Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9044205Z   IMAGE_NAME_LOWER: agentdawn/code-clash-rpg
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9044525Z ##[endgroup]
+build-and-push	Log in to the Container registry	2026-07-15T04:55:28.9983898Z Logging into ghcr.io...
+build-and-push	Log in to the Container registry	2026-07-15T04:55:29.4489203Z Login Succeeded!
+build-and-push	Build and push Docker image	癤?026-07-15T04:55:29.4637663Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4638945Z ##[group]Run docker/build-push-action@v4
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4639253Z with:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4639472Z   context: .
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4639824Z   push: true
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4640095Z   tags: ghcr.io/agentdawn/code-clash-rpg:latest
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4640428Z   load: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4640658Z   no-cache: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4640897Z   pull: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4643859Z   github-token: ***
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4644103Z env:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4644334Z   REGISTRY: ghcr.io
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4644604Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4644938Z   IMAGE_NAME_LOWER: agentdawn/code-clash-rpg
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.4645280Z ##[endgroup]
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.5959255Z (node:2208) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6005485Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6006450Z ##[group]GitHub Actions runtime token ACs
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6033701Z refs/heads/main: read/write
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6034754Z ##[endgroup]
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6035431Z ##[group]Docker info
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6060940Z [command]/usr/bin/docker version
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6266279Z Client: Docker Engine - Community
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6266963Z  Version:           28.0.4
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6267426Z  API version:       1.48
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6267914Z  Go version:        go1.23.7
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6268529Z  Git commit:        b8034c0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6269039Z  Built:             Tue Mar 25 15:07:16 2025
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6269610Z  OS/Arch:           linux/amd64
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6270185Z  Context:           default
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6270527Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6270759Z Server: Docker Engine - Community
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6272150Z  Engine:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6272599Z   Version:          28.0.4
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6273298Z   API version:      1.48 (minimum version 1.24)
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6274592Z   Go version:       go1.23.7
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6275098Z   Git commit:       6430e49
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6275605Z   Built:            Tue Mar 25 15:07:16 2025
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6276212Z   OS/Arch:          linux/amd64
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6276654Z   Experimental:     false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6277094Z  containerd:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6277511Z   Version:          v2.2.5
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6278116Z   GitCommit:        e53c7c1516c3b2bff98eb76f1f4117477e6f4e66
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6278734Z  runc:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6279076Z   Version:          1.3.6
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6279482Z   GitCommit:        v1.3.6-0-g491b69ba
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6279951Z  docker-init:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6280336Z   Version:          0.19.0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6280825Z   GitCommit:        de40ad0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.6308654Z [command]/usr/bin/docker info
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9114377Z Client: Docker Engine - Community
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9114907Z  Version:    28.0.4
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9115256Z  Context:    default
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9115520Z  Debug Mode: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9115732Z  Plugins:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9115955Z   buildx: Docker Buildx (Docker Inc.)
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9116252Z     Version:  v0.35.0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9116785Z     Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9117125Z   compose: Docker Compose (Docker Inc.)
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9117385Z     Version:  v2.38.2
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9117655Z     Path:     /usr/libexec/docker/cli-plugins/docker-compose
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9117883Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9118054Z Server:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9118604Z  Containers: 0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9118805Z   Running: 0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9119003Z   Paused: 0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9119232Z   Stopped: 0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9119765Z  Images: 6
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9119957Z  Server Version: 28.0.4
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9120186Z  Storage Driver: overlay2
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9120420Z   Backing Filesystem: extfs
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9120943Z   Supports d_type: true
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9121163Z   Using metacopy: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9121711Z   Native Overlay Diff: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9121974Z   userxattr: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9122190Z  Logging Driver: json-file
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9122557Z  Cgroup Driver: systemd
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9122774Z  Cgroup Version: 2
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9123915Z  Plugins:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9124143Z   Volume: local
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9124388Z   Network: bridge host ipvlan macvlan null overlay
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9125145Z   Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9125638Z  Swarm: inactive
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9125940Z  Runtimes: runc io.containerd.runc.v2
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9126308Z  Default Runtime: runc
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9126625Z  Init Binary: docker-init
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9127130Z  containerd version: e53c7c1516c3b2bff98eb76f1f4117477e6f4e66
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9127639Z  runc version: v1.3.6-0-g491b69ba
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9127984Z  init version: de40ad0
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9128286Z  Security Options:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9128669Z   apparmor
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9128924Z   seccomp
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9129176Z    Profile: builtin
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9129434Z   cgroupns
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9129699Z  Kernel Version: 6.17.0-1018-azure
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9130114Z  Operating System: Ubuntu 24.04.4 LTS
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9130553Z  OSType: linux
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9130845Z  Architecture: x86_64
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9131144Z  CPUs: 4
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9131398Z  Total Memory: 15.61GiB
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9131712Z  Name: runnervm5mmn9
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9132049Z  ID: e9594903-afeb-464a-937b-0a2f459cc4b5
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9132506Z  Docker Root Dir: /var/lib/docker
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9132878Z  Debug Mode: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9133580Z  Username: githubactions
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9133930Z  Experimental: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9134292Z  Insecure Registries:
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9141692Z   ::1/128
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9142105Z   127.0.0.0/8
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9142434Z  Live Restore Enabled: false
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9142704Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9143545Z ##[endgroup]
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9144193Z ##[group]Proxy configuration
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9144962Z No proxy configuration found
+build-and-push	Build and push Docker image	2026-07-15T04:55:29.9145680Z ##[endgroup]
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.0138271Z ##[group]Buildx version
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.0160425Z [command]/usr/bin/docker buildx version
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.0680386Z github.com/docker/buildx v0.35.0 a319e5b15052cf6557ceb666eb8ff6e32380b782
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.0727020Z ##[endgroup]
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.3037075Z [command]/usr/bin/docker buildx build --iidfile /tmp/docker-actions-toolkit-sDYVaT/iidfile --tag ghcr.io/agentdawn/code-clash-rpg:latest --metadata-file /tmp/docker-actions-toolkit-sDYVaT/metadata-file --push .
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.6197972Z #0 building with "default" instance using docker driver
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.6198496Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.6198720Z #1 [internal] load build definition from Dockerfile
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.6200240Z #1 transferring dockerfile: 869B 0.0s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.6200628Z #1 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.6200850Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.6201045Z #2 [internal] load metadata for docker.io/library/golang:alpine
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.8706554Z #2 ...
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.8706855Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.8707230Z #3 [auth] library/alpine:pull token for registry-1.docker.io
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.8708116Z #3 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.8708371Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.8708585Z #4 [auth] library/golang:pull token for registry-1.docker.io
+build-and-push	Build and push Docker image	2026-07-15T04:55:30.8708908Z #4 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:55:31.0211134Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:31.0211924Z #5 [internal] load metadata for docker.io/library/alpine:latest
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.3892196Z #5 DONE 4.9s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.3896294Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.3896987Z #2 [internal] load metadata for docker.io/library/golang:alpine
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5047579Z #2 DONE 4.9s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5048517Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5048818Z #6 [internal] load .dockerignore
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5049363Z #6 transferring context: 2B done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5049918Z #6 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5050227Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5050968Z #7 [stage-1 1/7] FROM docker.io/library/alpine:latest@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5052724Z #7 resolve docker.io/library/alpine:latest@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5054370Z #7 sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b 9.22kB / 9.22kB done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5055531Z #7 sha256:79ff19e9084a00eece421b2523fb93e22d730e2c0e525905de047e848e56d95f 1.02kB / 1.02kB done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5062713Z #7 sha256:d529dd0c6e5597ac7e4a3e2dea65c3fcc6173f4cae713c409265c1dd9914a11b 611B / 611B done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5064745Z #7 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5065071Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5065328Z #8 [stage-1 2/7] WORKDIR /app
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5065797Z #8 DONE 0.1s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5066068Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5066782Z #9 [builder 1/6] FROM docker.io/library/golang:alpine@sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.5068287Z #9 resolve docker.io/library/golang:alpine@sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2 done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6205696Z #9 sha256:111d79159b2326f7e80c4a4706e1ba166acb0e2611df853955f3621828cd49e8 1.92kB / 1.92kB done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6207786Z #9 sha256:7849a63a4b6c8ad0698b3bfc67b07165835208d8d82ec5766dfc9be5d56ceeab 2.19kB / 2.19kB done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6209213Z #9 sha256:6563b0ba6ce9e242d9162b6aee6a1a9aa1a38b009348c1fcb7beee0b41ee523d 245.07kB / 245.07kB 0.1s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6210537Z #9 sha256:cea3d467f844b8e6fffc2d7793807a1ec9e3a0582655418c1c17013372a3a910 0B / 67.29MB 0.2s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6211791Z #9 sha256:56bd32640bdfb6a9d786910d18868a249777b8689c6ef795f41a3c46968dd508 127B / 127B 0.2s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6213313Z #9 sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2 10.29kB / 10.29kB done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6214644Z #9 extracting sha256:6563b0ba6ce9e242d9162b6aee6a1a9aa1a38b009348c1fcb7beee0b41ee523d
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.6215886Z #9 sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 0B / 32B 0.2s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7211159Z #9 ...
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7211537Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7211690Z #10 [internal] load build context
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7212025Z #10 transferring context: 48.17MB 0.3s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7212294Z #10 DONE 0.3s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7212407Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7212784Z #9 [builder 1/6] FROM docker.io/library/golang:alpine@sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7213700Z #9 extracting sha256:6563b0ba6ce9e242d9162b6aee6a1a9aa1a38b009348c1fcb7beee0b41ee523d 0.1s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.7214305Z #9 sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 32B / 32B 0.3s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.9159889Z #9 sha256:cea3d467f844b8e6fffc2d7793807a1ec9e3a0582655418c1c17013372a3a910 41.94MB / 67.29MB 0.4s
+build-and-push	Build and push Docker image	2026-07-15T04:55:35.9160944Z #9 extracting sha256:cea3d467f844b8e6fffc2d7793807a1ec9e3a0582655418c1c17013372a3a910
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.0167403Z #9 sha256:cea3d467f844b8e6fffc2d7793807a1ec9e3a0582655418c1c17013372a3a910 67.29MB / 67.29MB 0.5s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8047536Z #9 ...
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8047991Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8049059Z #11 [stage-1 3/7] RUN apk --no-cache add ca-certificates tzdata
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8049692Z #11 1.071 (1/2) Installing ca-certificates (20260611-r0)
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8050215Z #11 1.098 (2/2) Installing tzdata (2026c-r0)
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8050696Z #11 1.145 Executing busybox-1.37.0-r31.trigger
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8051253Z #11 1.161 Executing ca-certificates-20260611-r0.trigger
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8051776Z #11 1.195 OK: 8837 KiB in 18 packages
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.8052512Z #11 DONE 1.3s
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.9733834Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:36.9735191Z #9 [builder 1/6] FROM docker.io/library/golang:alpine@sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.4496058Z #9 extracting sha256:cea3d467f844b8e6fffc2d7793807a1ec9e3a0582655418c1c17013372a3a910 3.5s done
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.7460343Z #9 extracting sha256:56bd32640bdfb6a9d786910d18868a249777b8689c6ef795f41a3c46968dd508
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9397111Z #9 extracting sha256:56bd32640bdfb6a9d786910d18868a249777b8689c6ef795f41a3c46968dd508 done
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9398253Z #9 extracting sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1 done
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9398666Z #9 DONE 4.4s
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9398786Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9398883Z #12 [builder 2/6] WORKDIR /app
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9399115Z #12 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9399233Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9399341Z #13 [builder 3/6] COPY go.mod go.sum ./
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9399598Z #13 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9399745Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:39.9399879Z #14 [builder 4/6] RUN go mod download
+build-and-push	Build and push Docker image	2026-07-15T04:55:44.4311482Z #14 DONE 4.6s
+build-and-push	Build and push Docker image	2026-07-15T04:55:44.6798380Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:44.6799155Z #15 [builder 5/6] COPY . .
+build-and-push	Build and push Docker image	2026-07-15T04:55:44.6799784Z #15 DONE 0.1s
+build-and-push	Build and push Docker image	2026-07-15T04:55:44.6800198Z 
+build-and-push	Build and push Docker image	2026-07-15T04:55:44.6800951Z #16 [builder 6/6] RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.3123959Z #16 DONE 18.8s
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4879494Z 
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4880209Z #17 [stage-1 4/7] COPY --from=builder /app/main .
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4880698Z #17 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4880894Z 
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4881114Z #18 [stage-1 5/7] COPY --from=builder /app/public ./public
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4881590Z #18 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4881751Z 
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4881978Z #19 [stage-1 6/7] COPY --from=builder /app/templates ./templates
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4882477Z #19 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4882663Z 
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4882845Z #20 [stage-1 7/7] RUN mkdir -p /app/data
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.4883933Z #20 DONE 0.1s
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.6399310Z 
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.6400138Z #21 exporting to image
+build-and-push	Build and push Docker image	2026-07-15T04:56:03.6400820Z #21 exporting layers
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.0138726Z #21 exporting layers 0.5s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1247237Z #21 writing image sha256:cc7d7df9e5404e6fc5b40cd3befb318c6717f0305081d474ad41d20f14db7e6b done
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1248376Z #21 naming to ghcr.io/agentdawn/code-clash-rpg:latest done
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1248971Z #21 DONE 0.5s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1249216Z 
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1249466Z #22 resolving provenance for metadata file
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1249954Z #22 DONE 0.0s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1250150Z 
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1250527Z #23 pushing ghcr.io/agentdawn/code-clash-rpg:latest with docker
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.1251118Z #23 pushing layer 6c05708f43f4
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.2755614Z #23 pushing layer 4236f0538cd3
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.2756019Z #23 pushing layer b88141b9d4b1
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.2756318Z #23 pushing layer 2356599716fa
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.2756627Z #23 pushing layer bc748127c04d
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.2756900Z #23 pushing layer 441d95bc85f5
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.2757695Z #23 pushing layer 34884abbe928
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.6071206Z #23 pushing layer 4236f0538cd3 34.82kB / 31.96kB 0.4s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.6072021Z #23 pushing layer 2356599716fa 1.84MB / 20.20MB 0.5s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.7167372Z #23 pushing layer b88141b9d4b1 5.04MB / 7.82MB 0.6s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.7168267Z #23 pushing layer bc748127c04d 1.54MB / 890.05kB 0.6s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.8194091Z #23 pushing layer b88141b9d4b1 7.39MB / 7.82MB 0.7s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.9847747Z #23 pushing layer b88141b9d4b1 7.84MB / 7.82MB 0.7s
+build-and-push	Build and push Docker image	2026-07-15T04:56:04.9848163Z #23 pushing layer 2356599716fa 6.88MB / 20.20MB 0.9s
+build-and-push	Build and push Docker image	2026-07-15T04:56:05.0915380Z #23 pushing layer 2356599716fa 10.09MB / 20.20MB 1.0s
+build-and-push	Build and push Docker image	2026-07-15T04:56:05.1937261Z #23 pushing layer 2356599716fa 12.62MB / 20.20MB 1.1s
+build-and-push	Build and push Docker image	2026-07-15T04:56:05.2957855Z #23 pushing layer 2356599716fa 15.83MB / 20.20MB 1.2s
+build-and-push	Build and push Docker image	2026-07-15T04:56:05.4077124Z #23 pushing layer 2356599716fa 19.50MB / 20.20MB 1.3s
+build-and-push	Build and push Docker image	2026-07-15T04:56:05.7271520Z #23 pushing layer 4236f0538cd3 1.6s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:05.8329033Z #23 pushing layer 6c05708f43f4 1.6s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:06.0164569Z #23 pushing layer bc748127c04d 1.9s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:06.7662338Z #23 pushing layer b88141b9d4b1 2.6s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:06.9262068Z #23 pushing layer 2356599716fa 2.7s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:07.3269044Z #23 pushing layer 441d95bc85f5 3.2s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.2169909Z #23 pushing layer 34884abbe928 5.1s done
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.3678735Z #23 DONE 5.2s
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9031502Z ##[group]ImageID
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9032241Z sha256:cc7d7df9e5404e6fc5b40cd3befb318c6717f0305081d474ad41d20f14db7e6b
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9033530Z ##[endgroup]
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9034199Z ##[group]Digest
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9034799Z sha256:7c8014a6a93b363e5256976a8f01304d1807498e984057ca11499f2c81ee62fa
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9035789Z ##[endgroup]
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9036436Z ##[group]Metadata
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9036798Z {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9037121Z   "buildx.build.provenance": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9037409Z     "builder": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9037635Z       "id": ""
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9037848Z     },
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9038176Z     "buildType": "https://mobyproject.org/buildkit@v1",
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9038530Z     "materials": [
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9038750Z       {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9039044Z         "uri": "pkg:docker/alpine@latest?platform=linux%2Famd64",
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9039409Z         "digest": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9039851Z           "sha256": "28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b"
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9040364Z         }
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9040598Z       },
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9040830Z       {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9041115Z         "uri": "pkg:docker/golang@alpine?platform=linux%2Famd64",
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9041472Z         "digest": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9041901Z           "sha256": "0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2"
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9042326Z         }
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9042525Z       }
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9042708Z     ],
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9042907Z     "invocation": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9043522Z       "configSource": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9043760Z         "entryPoint": "Dockerfile"
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9044035Z       },
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9044240Z       "parameters": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9044470Z         "frontend": "dockerfile.v0",
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9044750Z         "locals": [
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9044939Z           {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9045132Z             "name": "context"
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9045343Z           },
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9045514Z           {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9045718Z             "name": "dockerfile"
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9045938Z           }
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9046128Z         ]
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9046303Z       },
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9046477Z       "environment": {
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9046708Z         "platform": "linux/amd64"
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9047012Z       }
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9047219Z     }
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9047443Z   },
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9047802Z   "buildx.build.ref": "default/default/1iqawoprx21f2xxane3va0gdo",
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9048469Z   "containerimage.config.digest": "sha256:cc7d7df9e5404e6fc5b40cd3befb318c6717f0305081d474ad41d20f14db7e6b",
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9049197Z   "containerimage.digest": "sha256:7c8014a6a93b363e5256976a8f01304d1807498e984057ca11499f2c81ee62fa",
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9049744Z   "image.name": "ghcr.io/agentdawn/code-clash-rpg:latest"
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9050059Z }
+build-and-push	Build and push Docker image	2026-07-15T04:56:09.9050529Z ##[endgroup]
+build-and-push	Post Build and push Docker image	癤?026-07-15T04:56:09.9292749Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push	Post Build and push Docker image	2026-07-15T04:56:09.9294187Z Post job cleanup.
+build-and-push	Post Build and push Docker image	2026-07-15T04:56:10.0622979Z ##[group]Removing temp folder /tmp/docker-actions-toolkit-sDYVaT
+build-and-push	Post Build and push Docker image	2026-07-15T04:56:10.0629085Z (node:4746) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build-and-push	Post Build and push Docker image	2026-07-15T04:56:10.0630172Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-push	Post Build and push Docker image	2026-07-15T04:56:10.0631045Z ##[endgroup]
+build-and-push	Post Log in to the Container registry	癤?026-07-15T04:56:10.0720430Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push	Post Log in to the Container registry	2026-07-15T04:56:10.0721711Z Post job cleanup.
+build-and-push	Post Log in to the Container registry	2026-07-15T04:56:10.1776111Z [command]/usr/bin/docker logout ghcr.io
+build-and-push	Post Log in to the Container registry	2026-07-15T04:56:10.1904772Z Removing login credentials for ghcr.io
+build-and-push	Post Checkout Code	癤?026-07-15T04:56:10.2030214Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2031363Z Post job cleanup.
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2747744Z (node:4775) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2749098Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2777224Z [command]/usr/bin/git version
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2810592Z git version 2.54.0
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2843958Z Temporarily overriding HOME='/home/runner/work/_temp/2e8d50a3-2b9e-4352-b569-4df417efcbea' before making global git config changes
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2845108Z Adding repository directory to the temporary git global config as a safe directory
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2848279Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/code-clash-rpg/code-clash-rpg
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2878004Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.2904312Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.3082273Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.3104049Z http.https://github.com/.extraheader
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.3112028Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build-and-push	Post Checkout Code	2026-07-15T04:56:10.3138142Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-push	Complete job	癤?026-07-15T04:56:10.3425161Z Cleaning up orphan processes
+build-and-push	Complete job	2026-07-15T04:56:10.4402490Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v3, docker/build-push-action@v4, docker/login-action@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Set up job	癤?026-07-15T04:56:23.3133015Z Current runner version: '2.335.1'
+deploy	Set up job	2026-07-15T04:56:23.3142630Z Runner name: 'DESKTOP-RUNNER'
+deploy	Set up job	2026-07-15T04:56:23.3143300Z Runner group name: 'Default'
+deploy	Set up job	2026-07-15T04:56:23.3144060Z Machine name: 'DESKTOP-U29FJ9J'
+deploy	Set up job	2026-07-15T04:56:23.3146794Z ##[group]GITHUB_TOKEN Permissions
+deploy	Set up job	2026-07-15T04:56:23.3148265Z Contents: read
+deploy	Set up job	2026-07-15T04:56:23.3148592Z Metadata: read
+deploy	Set up job	2026-07-15T04:56:23.3148890Z Packages: read
+deploy	Set up job	2026-07-15T04:56:23.3149213Z ##[endgroup]
+deploy	Set up job	2026-07-15T04:56:23.3150490Z Secret source: Actions
+deploy	Set up job	2026-07-15T04:56:23.3150998Z Prepare workflow directory
+deploy	Set up job	2026-07-15T04:56:23.3714264Z Prepare all required actions
+deploy	Set up job	2026-07-15T04:56:23.3740757Z Getting action download info
+deploy	Set up job	2026-07-15T04:56:24.2738791Z Download action repository 'actions/checkout@v3' (SHA:f43a0e5ff2bd294095638e18286ca9a3d1956744)
+deploy	Set up job	2026-07-15T04:56:24.7745989Z Download action repository 'docker/login-action@v2' (SHA:465a07811f14bebb1938fbed4728c6a1ff8901fc)
+deploy	Set up job	2026-07-15T04:56:25.9617619Z Complete job name: deploy
+deploy	Checkout Code	癤?026-07-15T04:56:26.1111032Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Checkout Code	2026-07-15T04:56:26.1121656Z ##[group]Run actions/checkout@v3
+deploy	Checkout Code	2026-07-15T04:56:26.1122594Z with:
+deploy	Checkout Code	2026-07-15T04:56:26.1123236Z   repository: AgentDawn/code-clash-rpg
+deploy	Checkout Code	2026-07-15T04:56:26.1130898Z   token: ***
+deploy	Checkout Code	2026-07-15T04:56:26.1131516Z   ssh-strict: true
+deploy	Checkout Code	2026-07-15T04:56:26.1132275Z   persist-credentials: true
+deploy	Checkout Code	2026-07-15T04:56:26.1133021Z   clean: true
+deploy	Checkout Code	2026-07-15T04:56:26.1133626Z   sparse-checkout-cone-mode: true
+deploy	Checkout Code	2026-07-15T04:56:26.1134644Z   fetch-depth: 1
+deploy	Checkout Code	2026-07-15T04:56:26.1135319Z   fetch-tags: false
+deploy	Checkout Code	2026-07-15T04:56:26.1135921Z   lfs: false
+deploy	Checkout Code	2026-07-15T04:56:26.1137236Z   submodules: false
+deploy	Checkout Code	2026-07-15T04:56:26.1147765Z   set-safe-directory: true
+deploy	Checkout Code	2026-07-15T04:56:26.1151478Z env:
+deploy	Checkout Code	2026-07-15T04:56:26.1152277Z   REGISTRY: ghcr.io
+deploy	Checkout Code	2026-07-15T04:56:26.1152972Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+deploy	Checkout Code	2026-07-15T04:56:26.1153769Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:26.3187691Z (node:51664) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+deploy	Checkout Code	2026-07-15T04:56:26.3189758Z (Use `node --trace-deprecation ...` to show where the warning was created)
+deploy	Checkout Code	2026-07-15T04:56:26.3264967Z Syncing repository: AgentDawn/code-clash-rpg
+deploy	Checkout Code	2026-07-15T04:56:26.3267361Z ##[group]Getting Git version info
+deploy	Checkout Code	2026-07-15T04:56:26.3269094Z Working directory is 'C:\Users\chou6\OneDrive\Desktop\code-rpg\actions-runner\_work\code-clash-rpg\code-clash-rpg'
+deploy	Checkout Code	2026-07-15T04:56:26.3397514Z [command]"C:\Program Files\Git\cmd\git.exe" version
+deploy	Checkout Code	2026-07-15T04:56:26.3687129Z git version 2.53.0.windows.1
+deploy	Checkout Code	2026-07-15T04:56:26.3732615Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:26.3743351Z Copying 'C:\Users\chou6\.gitconfig' to 'C:\Users\chou6\OneDrive\Desktop\code-rpg\actions-runner\_work\_temp\d8a4a0e6-f73e-4943-a884-84ad17513d79\.gitconfig'
+deploy	Checkout Code	2026-07-15T04:56:26.3761568Z Temporarily overriding HOME='C:\Users\chou6\OneDrive\Desktop\code-rpg\actions-runner\_work\_temp\d8a4a0e6-f73e-4943-a884-84ad17513d79' before making global git config changes
+deploy	Checkout Code	2026-07-15T04:56:26.3764169Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Checkout Code	2026-07-15T04:56:26.3766821Z [command]"C:\Program Files\Git\cmd\git.exe" config --global --add safe.directory C:\Users\chou6\OneDrive\Desktop\code-rpg\actions-runner\_work\code-clash-rpg\code-clash-rpg
+deploy	Checkout Code	2026-07-15T04:56:26.4128814Z [command]"C:\Program Files\Git\cmd\git.exe" config --local --get remote.origin.url
+deploy	Checkout Code	2026-07-15T04:56:26.4418956Z https://github.com/AgentDawn/code-clash-rpg
+deploy	Checkout Code	2026-07-15T04:56:26.4469271Z ##[group]Removing previously created refs, to avoid conflicts
+deploy	Checkout Code	2026-07-15T04:56:26.4475270Z [command]"C:\Program Files\Git\cmd\git.exe" rev-parse --symbolic-full-name --verify --quiet HEAD
+deploy	Checkout Code	2026-07-15T04:56:26.4830856Z refs/heads/main
+deploy	Checkout Code	2026-07-15T04:56:26.4885400Z [command]"C:\Program Files\Git\cmd\git.exe" checkout --detach
+deploy	Checkout Code	2026-07-15T04:56:26.6266335Z HEAD is now at 3c6b4c8 feat: migrate database to SQLite using GORM
+deploy	Checkout Code	2026-07-15T04:56:26.7086050Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:26.7088935Z [command]"C:\Program Files\Git\cmd\git.exe" submodule status
+deploy	Checkout Code	2026-07-15T04:56:27.4121247Z ##[group]Cleaning the repository
+deploy	Checkout Code	2026-07-15T04:56:27.4125602Z [command]"C:\Program Files\Git\cmd\git.exe" clean -ffdx
+deploy	Checkout Code	2026-07-15T04:56:27.4466998Z [command]"C:\Program Files\Git\cmd\git.exe" reset --hard HEAD
+deploy	Checkout Code	2026-07-15T04:56:27.4883138Z HEAD is now at 3c6b4c8 feat: migrate database to SQLite using GORM
+deploy	Checkout Code	2026-07-15T04:56:27.4918989Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:27.4924227Z ##[group]Disabling automatic garbage collection
+deploy	Checkout Code	2026-07-15T04:56:27.4928872Z [command]"C:\Program Files\Git\cmd\git.exe" config --local gc.auto 0
+deploy	Checkout Code	2026-07-15T04:56:27.5276761Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:27.5277359Z ##[group]Setting up auth
+deploy	Checkout Code	2026-07-15T04:56:27.5283881Z [command]"C:\Program Files\Git\cmd\git.exe" config --local --name-only --get-regexp core\.sshCommand
+deploy	Checkout Code	2026-07-15T04:56:27.5612036Z [command]"C:\Program Files\Git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+deploy	Checkout Code	2026-07-15T04:56:28.1577017Z [command]"C:\Program Files\Git\cmd\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Checkout Code	2026-07-15T04:56:28.1939996Z [command]"C:\Program Files\Git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+deploy	Checkout Code	2026-07-15T04:56:28.7629720Z [command]"C:\Program Files\Git\cmd\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+deploy	Checkout Code	2026-07-15T04:56:28.7981661Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:28.7982176Z ##[group]Fetching the repository
+deploy	Checkout Code	2026-07-15T04:56:28.7994468Z [command]"C:\Program Files\Git\cmd\git.exe" -c protocol.version=2 fetch --no-tags --prune --progress --no-recurse-submodules --depth=1 origin +97863783244a54b8da72f333228b37f0732f0c88:refs/remotes/origin/main
+deploy	Checkout Code	2026-07-15T04:56:29.2999625Z remote: Enumerating objects: 13, done.        
+deploy	Checkout Code	2026-07-15T04:56:29.3000325Z remote: Counting objects:   7% (1/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3000599Z remote: Counting objects:  15% (2/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3000852Z remote: Counting objects:  23% (3/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3001086Z remote: Counting objects:  30% (4/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3001328Z remote: Counting objects:  38% (5/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3001573Z remote: Counting objects:  46% (6/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3002179Z remote: Counting objects:  53% (7/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3002479Z remote: Counting objects:  61% (8/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3003285Z remote: Counting objects:  69% (9/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3003762Z remote: Counting objects:  76% (10/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3004044Z remote: Counting objects:  84% (11/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3005209Z remote: Counting objects:  92% (12/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3005657Z remote: Counting objects: 100% (13/13)        
+deploy	Checkout Code	2026-07-15T04:56:29.3006253Z remote: Counting objects: 100% (13/13), done.        
+deploy	Checkout Code	2026-07-15T04:56:29.3006768Z remote: Compressing objects:  50% (1/2)        
+deploy	Checkout Code	2026-07-15T04:56:29.3007309Z remote: Compressing objects: 100% (2/2)        
+deploy	Checkout Code	2026-07-15T04:56:29.3007775Z remote: Compressing objects: 100% (2/2), done.        
+deploy	Checkout Code	2026-07-15T04:56:29.3008405Z remote: Total 8 (delta 3), reused 8 (delta 3), pack-reused 0 (from 0)        
+deploy	Checkout Code	2026-07-15T04:56:29.3638193Z From https://github.com/AgentDawn/code-clash-rpg
+deploy	Checkout Code	2026-07-15T04:56:29.3638877Z  + 3c6b4c8...9786378 97863783244a54b8da72f333228b37f0732f0c88 -> origin/main  (forced update)
+deploy	Checkout Code	2026-07-15T04:56:29.3842307Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:29.3842840Z ##[group]Determining the checkout info
+deploy	Checkout Code	2026-07-15T04:56:29.3844414Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:29.3844806Z ##[group]Checking out the ref
+deploy	Checkout Code	2026-07-15T04:56:29.3849912Z [command]"C:\Program Files\Git\cmd\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+deploy	Checkout Code	2026-07-15T04:56:29.4299670Z Previous HEAD position was 3c6b4c8 feat: migrate database to SQLite using GORM
+deploy	Checkout Code	2026-07-15T04:56:29.4407408Z Switched to and reset branch 'main'
+deploy	Checkout Code	2026-07-15T04:56:29.4442973Z branch 'main' set up to track 'origin/main'.
+deploy	Checkout Code	2026-07-15T04:56:29.4443496Z Your branch is up to date with 'origin/main'.
+deploy	Checkout Code	2026-07-15T04:56:29.4478316Z ##[endgroup]
+deploy	Checkout Code	2026-07-15T04:56:29.4833697Z [command]"C:\Program Files\Git\cmd\git.exe" log -1 --format='%H'
+deploy	Checkout Code	2026-07-15T04:56:29.5148702Z '97863783244a54b8da72f333228b37f0732f0c88'
+deploy	Lowercase image name	癤?026-07-15T04:56:29.5565061Z ##[group]Run echo "IMAGE_NAME_LOWER=$('AgentDawn/code-clash-rpg'.ToLower())" >> $env:GITHUB_ENV
+deploy	Lowercase image name	2026-07-15T04:56:29.5565790Z [36;1mecho "IMAGE_NAME_LOWER=$('AgentDawn/code-clash-rpg'.ToLower())" >> $env:GITHUB_ENV[0m
+deploy	Lowercase image name	2026-07-15T04:56:29.5629831Z shell: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+deploy	Lowercase image name	2026-07-15T04:56:29.5630160Z env:
+deploy	Lowercase image name	2026-07-15T04:56:29.5630305Z   REGISTRY: ghcr.io
+deploy	Lowercase image name	2026-07-15T04:56:29.5630477Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+deploy	Lowercase image name	2026-07-15T04:56:29.5630671Z ##[endgroup]
+deploy	Log in to the Container registry	癤?026-07-15T04:56:29.8410224Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8411338Z ##[group]Run docker/login-action@v2
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8411490Z with:
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8411603Z   registry: ghcr.io
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8411724Z   username: AgentDawn
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8413388Z   password: ***
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8413508Z   ecr: auto
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8413647Z   logout: true
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8413762Z env:
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8413859Z   REGISTRY: ghcr.io
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8413985Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8414157Z   IMAGE_NAME_LOWER: agentdawn/code-clash-rpg
+deploy	Log in to the Container registry	2026-07-15T04:56:29.8414310Z ##[endgroup]
+deploy	Log in to the Container registry	2026-07-15T04:56:30.0027952Z Logging into ghcr.io...
+deploy	Log in to the Container registry	2026-07-15T04:56:31.6920670Z Login Succeeded!
+deploy	Run Zero-downtime Deployment Script	癤?026-07-15T04:56:31.7153094Z ##[group]Run & "C:\Program Files\Git\bin\bash.exe" scripts/deploy.sh
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7153459Z [36;1m& "C:\Program Files\Git\bin\bash.exe" scripts/deploy.sh[0m
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7215076Z shell: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7215485Z env:
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7215659Z   REGISTRY: ghcr.io
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7215853Z   IMAGE_NAME: AgentDawn/code-clash-rpg
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7216111Z   IMAGE_NAME_LOWER: agentdawn/code-clash-rpg
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7216404Z   IMAGE_TAG: ghcr.io/agentdawn/code-clash-rpg:latest
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.7216696Z ##[endgroup]
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:31.9397475Z Preparing deployment using image: ghcr.io/agentdawn/code-clash-rpg:latest
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:32.1276540Z code-clash-data
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:33.2603005Z latest: Pulling from agentdawn/code-clash-rpg
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.1120917Z ab17dc4d5fb6: Pulling fs layer
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.1121230Z 23bd5cc7bb36: Pulling fs layer
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.1121396Z ea53aed69939: Pulling fs layer
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.1121613Z 791c3b299169: Pulling fs layer
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.1121754Z eca879bdfa07: Pulling fs layer
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.1121896Z 9a3a5787d063: Pulling fs layer
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.6622500Z ab17dc4d5fb6: Download complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.6623767Z 23bd5cc7bb36: Download complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.6625472Z eca879bdfa07: Download complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.6746038Z 23bd5cc7bb36: Pull complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.7529274Z 9a3a5787d063: Download complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:34.9451568Z 9a3a5787d063: Pull complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.0262864Z ea53aed69939: Download complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.3904884Z 791c3b299169: Download complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.4966790Z 791c3b299169: Pull complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.5772897Z eca879bdfa07: Pull complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.5809162Z ea53aed69939: Pull complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.6253177Z ab17dc4d5fb6: Pull complete
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.6253955Z Digest: sha256:7c8014a6a93b363e5256976a8f01304d1807498e984057ca11499f2c81ee62fa
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.6254544Z Status: Downloaded newer image for ghcr.io/agentdawn/code-clash-rpg:latest
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:36.6364789Z ghcr.io/agentdawn/code-clash-rpg:latest
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:37.0915443Z Active port is 3002. Deploying to idle port: 3001
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:37.4048505Z Starting new container code-clash-rpg-3001...
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:37.6412750Z e714404bcf4b823c23661f3782b0a2b5af2f768593ae27d6ac5cf8a9eba63c50
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:38.1492581Z Waiting for health check...
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:40.4325124Z Waiting for service to be healthy... (1/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:44.7506381Z Waiting for service to be healthy... (2/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:49.0508082Z Waiting for service to be healthy... (3/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:53.3579532Z Waiting for service to be healthy... (4/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:56:57.6566436Z Waiting for service to be healthy... (5/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:01.9618196Z Waiting for service to be healthy... (6/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:06.2725176Z Waiting for service to be healthy... (7/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:10.5848792Z Waiting for service to be healthy... (8/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:14.8900276Z Waiting for service to be healthy... (9/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:19.2080934Z Waiting for service to be healthy... (10/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:23.5162022Z Waiting for service to be healthy... (11/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:27.8337471Z Waiting for service to be healthy... (12/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:32.1346337Z Waiting for service to be healthy... (13/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:36.4353382Z Waiting for service to be healthy... (14/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:40.7302687Z Waiting for service to be healthy... (15/15)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:42.7528965Z Health check failed. Check docker logs:
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:42.9054226Z 2026/07/15 04:56:33 Failed to connect database:unable to open database file: out of memory (14)
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:42.9135643Z Rolling back (Killing new instance)...
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:43.0599267Z code-clash-rpg-3001
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:43.2559012Z code-clash-rpg-3001
+deploy	Run Zero-downtime Deployment Script	2026-07-15T04:57:43.3381262Z ##[error]Process completed with exit code 1.
+deploy	Post Log in to the Container registry	癤?026-07-15T04:57:43.3643952Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Post Log in to the Container registry	2026-07-15T04:57:43.3644961Z Post job cleanup.
+deploy	Post Log in to the Container registry	2026-07-15T04:57:43.4929507Z [command]"C:\Program Files\Docker\Docker\resources\bin\docker.exe" logout ghcr.io
+deploy	Post Log in to the Container registry	2026-07-15T04:57:43.5455665Z Removing login credentials for ghcr.io
+deploy	Post Checkout Code	癤?026-07-15T04:57:47.2931274Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Post Checkout Code	2026-07-15T04:57:47.2932443Z Post job cleanup.
+deploy	Post Checkout Code	2026-07-15T04:57:47.3563019Z (node:50988) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+deploy	Post Checkout Code	2026-07-15T04:57:47.3563604Z (Use `node --trace-deprecation ...` to show where the warning was created)
+deploy	Post Checkout Code	2026-07-15T04:57:47.3745407Z [command]"C:\Program Files\Git\cmd\git.exe" version
+deploy	Post Checkout Code	2026-07-15T04:57:47.3992175Z git version 2.53.0.windows.1
+deploy	Post Checkout Code	2026-07-15T04:57:47.4049229Z Copying 'C:\Users\chou6\.gitconfig' to 'C:\Users\chou6\OneDrive\Desktop\code-rpg\actions-runner\_work\_temp\7b58ea57-2275-4a78-a1f3-83b8044ab3b0\.gitconfig'
+deploy	Post Checkout Code	2026-07-15T04:57:47.4066415Z Temporarily overriding HOME='C:\Users\chou6\OneDrive\Desktop\code-rpg\actions-runner\_work\_temp\7b58ea57-2275-4a78-a1f3-83b8044ab3b0' before making global git config changes
+deploy	Post Checkout Code	2026-07-15T04:57:47.4067499Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Post Checkout Code	2026-07-15T04:57:47.4071305Z [command]"C:\Program Files\Git\cmd\git.exe" config --global --add safe.directory C:\Users\chou6\OneDrive\Desktop\code-rpg\actions-runner\_work\code-clash-rpg\code-clash-rpg
+deploy	Post Checkout Code	2026-07-15T04:57:47.4374301Z [command]"C:\Program Files\Git\cmd\git.exe" config --local --name-only --get-regexp core\.sshCommand
+deploy	Post Checkout Code	2026-07-15T04:57:47.4660794Z [command]"C:\Program Files\Git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+deploy	Post Checkout Code	2026-07-15T04:57:48.0053364Z [command]"C:\Program Files\Git\cmd\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Post Checkout Code	2026-07-15T04:57:48.0335323Z http.https://github.com/.extraheader
+deploy	Post Checkout Code	2026-07-15T04:57:48.0389903Z [command]"C:\Program Files\Git\cmd\git.exe" config --local --unset-all http.https://github.com/.extraheader
+deploy	Post Checkout Code	2026-07-15T04:57:48.0741665Z [command]"C:\Program Files\Git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+deploy	Complete job	癤?026-07-15T04:57:48.7134639Z Cleaning up orphan processes
+deploy	Complete job	2026-07-15T04:57:48.7647697Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v3, docker/login-action@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
