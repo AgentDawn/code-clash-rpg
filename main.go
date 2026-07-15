@@ -337,6 +337,13 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Ensure character name is unique
+	var existingUser User
+	if err := db.Where("name = ?", strings.TrimSpace(req.CharName)).First(&existingUser).Error; err == nil {
+		errorResponse(w, http.StatusBadRequest, "이미 존재하는 캐릭터 이름입니다. 다른 이름을 사용해주세요.")
+		return
+	}
+
 	// Generate a random guest ID
 	b := make([]byte, 4)
 	crand.Read(b)
