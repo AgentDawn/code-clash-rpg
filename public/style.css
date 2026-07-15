@@ -1116,3 +1116,36 @@ body {
   border-color: rgba(248, 152, 32, 0.3);
   box-shadow: 0 0 5px rgba(248, 152, 32, 0.1);
 }
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+.modal-content {
+  width: 400px;
+  max-width: 90%;
+  background: var(--surface);
+  padding: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
