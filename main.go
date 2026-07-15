@@ -17,6 +17,8 @@ import (
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
+	"github.com/glebarez/sqlite"
 )
 
 // --- Game Database and Config Structures ---
@@ -37,8 +39,8 @@ type Equipment struct {
 type QuestState struct {
 	Active    bool    `json:"active"`
 	QuestID   *string `json:"questId"`
-	StartTime *int64  `json:"startTime"` // Epoch milliseconds
-	Duration  *int64  `json:"duration"`  // Milliseconds
+	StartTime *int64  `json:"startTime"`
+	Duration  *int64  `json:"duration"`
 }
 
 type Character struct {
@@ -48,26 +50,23 @@ type Character struct {
 	XP         int        `json:"xp"`
 	XPNeeded   int        `json:"xpNeeded"`
 	Gold       int        `json:"gold"`
-	BaseStats  Stats      `json:"baseStats"`
-	Stats      Stats      `json:"stats"`
+	BaseStats  Stats      `json:"baseStats" gorm:"embedded;embeddedPrefix:base_"`
+	Stats      Stats      `json:"stats" gorm:"-"`
 	StatPoints int        `json:"statPoints"`
 	HP         int        `json:"hp"`
-	MaxHP      int        `json:"maxHp"`
+	MaxHP      int        `json:"maxHp" gorm:"-"`
 	MP         int        `json:"mp"`
-	MaxMP      int        `json:"maxMp"`
-	Equipment  Equipment  `json:"equipment"`
-	Inventory  []string   `json:"inventory"`
-	QuestState QuestState `json:"questState"`
-	Logs       []string   `json:"logs"`
+	MaxMP      int        `json:"maxMp" gorm:"-"`
+	Equipment  Equipment  `json:"equipment" gorm:"embedded;embeddedPrefix:eq_"`
+	Inventory  []string   `json:"inventory" gorm:"serializer:json"`
+	QuestState QuestState `json:"questState" gorm:"embedded;embeddedPrefix:quest_"`
+	Logs       []string   `json:"logs" gorm:"serializer:json"`
 }
 
 type User struct {
+	Username  string    `json:"username" gorm:"primaryKey"`
 	Password  string    `json:"password"`
-	Character Character `json:"character"`
-}
-
-type Database struct {
-	Users map[string]User `json:"users"`
+	Character Character `json:"character" gorm:"embedded"`
 }
 
 // Static Metadata definitions
@@ -128,8 +127,8 @@ func getDbFilePath() string {
 }
 
 var (
-	// Database file sync
-	dbLock sync.RWMutex
+	// GORM Database instance
+	db *gorm.DB
 	
 	// In-memory Session store mapping
 	sessionsLock sync.RWMutex
@@ -138,15 +137,24 @@ var (
 
 // --- Database Helper Functions ---
 
-func readDb() (Database, error) {
-	dbLock.RLock()
-	defer dbLock.RUnlock()
-
-	var db Database
+func initDB() {
 	dbFile := getDbFilePath()
-	if _, err := os.Stat(dbFile); os.IsNotExist(err) {
-		db.Users = make(map[string]User)
-		
+	if strings.HasSuffix(dbFile, ".json") {
+		dbFile = strings.Replace(dbFile, ".json", ".sqlite", 1)
+	}
+
+	var err error
+	db, err = gorm.Open(sqlite.Open(dbFile), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Failed to connect database:", err)
+	}
+
+	// Auto Migrate the schema
+	db.AutoMigrate(&User{})
+
+	// Seed admin if not exists
+	var admin User
+	if err := db.First(&admin, "username = ?", "admin").Error; err != nil {
 		hashedPassword, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
 		adminChar := Character{
 			Name:       "admin",
@@ -164,41 +172,13 @@ func readDb() (Database, error) {
 			Logs:       []string{"Game Master account created."},
 		}
 		recalculateCharacter(&adminChar)
-		db.Users["admin"] = User{
+		adminUser := User{
+			Username:  "admin",
 			Password:  string(hashedPassword),
 			Character: adminChar,
 		}
-
-		return db, nil
+		db.Create(&adminUser)
 	}
-
-	data, err := os.ReadFile(getDbFilePath())
-	if err != nil {
-		return db, err
-	}
-
-	err = json.Unmarshal(data, &db)
-	if err != nil {
-		return db, err
-	}
-
-	if db.Users == nil {
-		db.Users = make(map[string]User)
-	}
-
-	return db, nil
-}
-
-func writeDb(db Database) error {
-	dbLock.Lock()
-	defer dbLock.Unlock()
-
-	data, err := json.MarshalIndent(db, "", "  ")
-	if err != nil {
-		return err
-	}
-
-	return os.WriteFile(getDbFilePath(), data, 0644)
 }
 
 // --- RPG Logic Functions ---
@@ -357,13 +337,8 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	normalizedUser := strings.ToLower(strings.TrimSpace(req.Username))
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
-		return
-	}
-
-	if _, exists := db.Users[normalizedUser]; exists {
+	var existing User
+	if err := db.Where("username = ?", normalizedUser).First(&existing).Error; err == nil {
 		errorResponse(w, http.StatusBadRequest, "Username already exists")
 		return
 	}
@@ -419,12 +394,12 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db.Users[normalizedUser] = User{
+	newUser := User{
+		Username:  normalizedUser,
 		Password:  string(hashedPassword),
 		Character: char,
 	}
-
-	if err := writeDb(db); err != nil {
+	if err := db.Create(&newUser).Error; err != nil {
 		errorResponse(w, http.StatusInternalServerError, "Failed to write database")
 		return
 	}
@@ -463,19 +438,13 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	normalizedUser := strings.ToLower(strings.TrimSpace(req.Username))
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
-		return
-	}
-
-	user, exists := db.Users[normalizedUser]
-	if !exists {
+	var user User
+	if err := db.First(&user, "username = ?", normalizedUser).Error; err != nil {
 		errorResponse(w, http.StatusBadRequest, "길드원 정보가 올바르지 않습니다. (이름 또는 비밀번호 오류)")
 		return
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
 		errorResponse(w, http.StatusBadRequest, "길드원 정보가 올바르지 않습니다. (이름 또는 비밀번호 오류)")
 		return
@@ -486,8 +455,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Save back to db in case of calculation updates
 	user.Character = char
-	db.Users[normalizedUser] = user
-	writeDb(db)
+	db.Save(&user)
 
 	// Create session
 	sessID := generateSessionID()
@@ -522,11 +490,7 @@ func guestLoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
-		return
-	}
+	
 
 	// Generate random guest ID and password
 	b := make([]byte, 4)
@@ -584,12 +548,12 @@ func guestLoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	recalculateCharacter(&char)
 
-	db.Users[guestID] = User{
+	guestUser := User{
+		Username:  guestID,
 		Password:  string(hashedPassword),
 		Character: char,
 	}
-
-	writeDb(db)
+	db.Create(&guestUser)
 
 	// Create session
 	sessID := generateSessionID()
@@ -649,14 +613,10 @@ func meHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
-		return
-	}
+	
 
-	user, exists := db.Users[username]
-	if !exists {
+	var user User
+	if err := db.First(&user, "username = ?", username).Error; err != nil {
 		errorResponse(w, http.StatusNotFound, "Character not found")
 		return
 	}
@@ -693,13 +653,13 @@ func questHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
+	
+
+	var user User
+	if err := db.First(&user, "username = ?", username).Error; err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Database error")
 		return
 	}
-
-	user := db.Users[username]
 	char := &user.Character
 
 	if req.Action == "start" {
@@ -731,8 +691,7 @@ func questHandler(w http.ResponseWriter, r *http.Request) {
 		logMsg := fmt.Sprintf("Started quest: \"%s\". It will take %d seconds.", quest.Name, quest.Duration/1000)
 		char.Logs = append([]string{logMsg}, char.Logs...)
 
-		db.Users[username] = user
-		writeDb(db)
+		db.Save(&user)
 		jsonResponse(w, http.StatusOK, map[string]interface{}{"character": char})
 		return
 	}
@@ -815,8 +774,7 @@ func questHandler(w http.ResponseWriter, r *http.Request) {
 		// Reset Quest State
 		char.QuestState = QuestState{Active: false}
 
-		db.Users[username] = user
-		writeDb(db)
+		db.Save(&user)
 		jsonResponse(w, http.StatusOK, map[string]interface{}{"character": char})
 		return
 	}
@@ -842,13 +800,13 @@ func statsTrainHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
+	
+
+	var user User
+	if err := db.First(&user, "username = ?", username).Error; err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Database error")
 		return
 	}
-
-	user := db.Users[username]
 	char := &user.Character
 
 	if char.StatPoints <= 0 {
@@ -876,8 +834,7 @@ func statsTrainHandler(w http.ResponseWriter, r *http.Request) {
 	logMsg := fmt.Sprintf("Trained: Increased base %s by 1.", req.Stat)
 	char.Logs = append([]string{logMsg}, char.Logs...)
 
-	db.Users[username] = user
-	writeDb(db)
+	db.Save(&user)
 
 	jsonResponse(w, http.StatusOK, map[string]interface{}{"character": char})
 }
@@ -906,13 +863,13 @@ func shopBuyHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
+	
+
+	var user User
+	if err := db.First(&user, "username = ?", username).Error; err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Database error")
 		return
 	}
-
-	user := db.Users[username]
 	char := &user.Character
 
 	if char.Gold < item.Cost {
@@ -926,8 +883,7 @@ func shopBuyHandler(w http.ResponseWriter, r *http.Request) {
 	logMsg := fmt.Sprintf("Purchased: %s for %d Gold.", item.Name, item.Cost)
 	char.Logs = append([]string{logMsg}, char.Logs...)
 
-	db.Users[username] = user
-	writeDb(db)
+	db.Save(&user)
 
 	jsonResponse(w, http.StatusOK, map[string]interface{}{"character": char})
 }
@@ -950,13 +906,13 @@ func itemActionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
+	
+
+	var user User
+	if err := db.First(&user, "username = ?", username).Error; err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Database error")
 		return
 	}
-
-	user := db.Users[username]
 	char := &user.Character
 
 	// Helper to find and remove item from inventory
@@ -996,8 +952,7 @@ func itemActionHandler(w http.ResponseWriter, r *http.Request) {
 		char.Logs = append([]string{logMsg}, char.Logs...)
 
 		recalculateCharacter(char)
-		db.Users[username] = user
-		writeDb(db)
+		db.Save(&user)
 		jsonResponse(w, http.StatusOK, map[string]interface{}{"character": char})
 		return
 	}
@@ -1038,8 +993,7 @@ func itemActionHandler(w http.ResponseWriter, r *http.Request) {
 		char.Logs = append([]string{fmt.Sprintf("Equipped: %s to %s.", item.Name, targetSlot)}, char.Logs...)
 		recalculateCharacter(char)
 
-		db.Users[username] = user
-		writeDb(db)
+		db.Save(&user)
 		jsonResponse(w, http.StatusOK, map[string]interface{}{"character": char})
 		return
 	}
@@ -1078,8 +1032,7 @@ func itemActionHandler(w http.ResponseWriter, r *http.Request) {
 		char.Logs = append([]string{fmt.Sprintf("Unequipped: %s.", item.Name)}, char.Logs...)
 
 		recalculateCharacter(char)
-		db.Users[username] = user
-		writeDb(db)
+		db.Save(&user)
 		jsonResponse(w, http.StatusOK, map[string]interface{}{"character": char})
 		return
 	}
@@ -1099,11 +1052,7 @@ func adminWarHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read DB")
-		return
-	}
+	
 
 	factionScores := map[string]int{
 		"Go Faction": 0,
@@ -1114,7 +1063,9 @@ func adminWarHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Calculate scores
-	for _, u := range db.Users {
+	var users []User
+	db.Find(&users)
+	for _, u := range users {
 		if u.Character.Name == "admin" {
 			continue
 		}
@@ -1145,7 +1096,9 @@ func adminWarHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Distribute rewards
 	if winner != "" {
-		for uname, u := range db.Users {
+		var users []User
+		db.Find(&users)
+		for _, u := range users {
 			if u.Character.Name == "admin" {
 				continue
 			}
@@ -1172,13 +1125,13 @@ func adminWarHandler(w http.ResponseWriter, r *http.Request) {
 					u.Character.Logs = append([]string{fmt.Sprintf("Level Up! You are now level %d. (+3 Stat Points)", u.Character.Level)}, u.Character.Logs...)
 				}
 				
-				db.Users[uname] = u
+				db.Save(&u)
 			} else {
 				u.Character.Logs = append([]string{fmt.Sprintf("⚔️ Faction War ended! %s won the war. Try harder next time!", winner)}, u.Character.Logs...)
-				db.Users[uname] = u
+				db.Save(&u)
 			}
 		}
-		writeDb(db)
+		// writeDb(db)
 	}
 
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
@@ -1230,13 +1183,13 @@ func huntHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	db, err := readDb()
-	if err != nil {
-		errorResponse(w, http.StatusInternalServerError, "Failed to read database")
+	
+
+	var user User
+	if err := db.First(&user, "username = ?", username).Error; err != nil {
+		errorResponse(w, http.StatusInternalServerError, "Database error")
 		return
 	}
-
-	user := db.Users[username]
 	char := &user.Character
 
 	power := (char.Level * 10) + char.Stats.Strength + char.Stats.Intelligence + char.Stats.Dexterity + char.Stats.Luck
@@ -1278,8 +1231,7 @@ func huntHandler(w http.ResponseWriter, r *http.Request) {
 
 	char.Logs = append([]string{logMsg}, char.Logs...)
 	
-	db.Users[username] = user
-	writeDb(db)
+	db.Save(&user)
 
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
 		"character": char,
@@ -1291,6 +1243,7 @@ func huntHandler(w http.ResponseWriter, r *http.Request) {
 // --- Main Server Setup ---
 
 func main() {
+	initDB()
 	// API Route mappings
 	http.HandleFunc("/api/register", registerHandler)
 	http.HandleFunc("/api/login", loginHandler)
@@ -1328,11 +1281,10 @@ func main() {
 
 			username, ok := getLoggedInUser(r)
 			if ok {
-				db, err := readDb()
-				if err == nil {
-					user, exists := db.Users[username]
-					if exists {
-						data.LoggedIn = true
+				var user User
+				exists := (db.First(&user, "username = ?", username).Error == nil)
+				if exists {
+					data.LoggedIn = true
 						if username == "admin" {
 							data.Role = "admin"
 						} else {
@@ -1341,7 +1293,6 @@ func main() {
 						charBytes, _ := json.Marshal(user.Character)
 						data.CharacterJSON = template.JS(charBytes)
 					}
-				}
 			}
 
 			tmpl, err := template.ParseFiles(filepath.Join(".", "templates", "index.html"))
