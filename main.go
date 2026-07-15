@@ -394,6 +394,30 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		baseStats = Stats{Strength: 8, Intelligence: 10, Dexterity: 14, Luck: 10}
 		ringStr := "ring"
 		equipment.Ring = &ringStr
+	case "NodeNinja":
+		baseStats = Stats{Strength: 9, Intelligence: 9, Dexterity: 15, Luck: 9}
+		wStr := "sword"
+		equipment.Weapon = &wStr
+	case "NodeSummoner":
+		baseStats = Stats{Strength: 5, Intelligence: 14, Dexterity: 10, Luck: 13}
+		wStr := "staff"
+		equipment.Weapon = &wStr
+	case "PythonRanger":
+		baseStats = Stats{Strength: 7, Intelligence: 12, Dexterity: 13, Luck: 10}
+		wStr := "staff"
+		equipment.Weapon = &wStr
+	case "PythonBerserker":
+		baseStats = Stats{Strength: 15, Intelligence: 5, Dexterity: 9, Luck: 13}
+		wStr := "sword"
+		equipment.Weapon = &wStr
+	case "JavaKnight":
+		baseStats = Stats{Strength: 12, Intelligence: 10, Dexterity: 8, Luck: 12}
+		aStr := "armor"
+		equipment.Armor = &aStr
+	case "JavaCleric":
+		baseStats = Stats{Strength: 6, Intelligence: 14, Dexterity: 8, Luck: 14}
+		rStr := "ring"
+		equipment.Ring = &rStr
 	default:
 		errorResponse(w, http.StatusBadRequest, "Invalid class selection")
 		return
