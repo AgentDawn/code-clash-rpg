@@ -71,6 +71,12 @@ type User struct {
 	Character    Character `json:"character" gorm:"embedded"`
 }
 
+type Session struct {
+	SessionID string    `gorm:"primaryKey"`
+	Username  string    `gorm:"index"`
+	CreatedAt time.Time
+}
+
 func (u *User) AfterFind(tx *gorm.DB) (err error) {
 	recalculateCharacter(&u.Character)
 	return
@@ -145,10 +151,6 @@ func getDbFilePath() string {
 var (
 	// GORM Database instance
 	db *gorm.DB
-	
-	// In-memory Session store mapping
-	sessionsLock sync.RWMutex
-	sessions     = make(map[string]string) // SessionID -> Username
 
 	lastActiveUpdate sync.Map
 )
@@ -168,7 +170,7 @@ func initDB() {
 	}
 
 	// Auto Migrate the schema
-	db.AutoMigrate(&User{}, &ChatMessage{})
+	db.AutoMigrate(&User{}, &ChatMessage{}, &Session{})
 
 	// Seed admin if not exists
 	var admin User
@@ -288,21 +290,21 @@ func getLoggedInUser(r *http.Request) (string, bool) {
 		return "", false
 	}
 
-	sessionsLock.RLock()
-	username, ok := sessions[cookie.Value]
-	sessionsLock.RUnlock()
+	var session Session
+	if err := db.First(&session, "session_id = ?", cookie.Value).Error; err != nil {
+		return "", false
+	}
+	username := session.Username
 
-	if ok {
-		last, loaded := lastActiveUpdate.Load(username)
-		if !loaded || time.Since(last.(time.Time)) > time.Minute {
-			lastActiveUpdate.Store(username, time.Now())
-			go func(u string) {
-				db.Model(&User{}).Where("username = ?", u).Update("last_active_at", time.Now())
-			}(username)
-		}
+	last, loaded := lastActiveUpdate.Load(username)
+	if !loaded || time.Since(last.(time.Time)) > time.Minute {
+		lastActiveUpdate.Store(username, time.Now())
+		go func(u string) {
+			db.Model(&User{}).Where("username = ?", u).Update("last_active_at", time.Now())
+		}(username)
 	}
 
-	return username, ok
+	return username, true
 }
 
 // --- HTTP Helpers ---
@@ -466,9 +468,11 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create session
 	sessID := generateSessionID()
-	sessionsLock.Lock()
-	sessions[sessID] = normalizedUser
-	sessionsLock.Unlock()
+	db.Save(&Session{
+		SessionID: sessID,
+		Username:  normalizedUser,
+		CreatedAt: time.Now(),
+	})
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     SESSION_NAME,
@@ -520,9 +524,11 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create session
 	sessID := generateSessionID()
-	sessionsLock.Lock()
-	sessions[sessID] = normalizedUser
-	sessionsLock.Unlock()
+	db.Save(&Session{
+		SessionID: sessID,
+		Username:  normalizedUser,
+		CreatedAt: time.Now(),
+	})
 
 	http.SetCookie(w, &http.Cookie{
 		Name:     SESSION_NAME,
@@ -605,9 +611,7 @@ func linkAccountHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Update session
 	cookie, _ := r.Cookie(SESSION_NAME)
-	sessionsLock.Lock()
-	sessions[cookie.Value] = newUsername
-	sessionsLock.Unlock()
+	db.Model(&Session{}).Where("session_id = ?", cookie.Value).Update("username", newUsername)
 
 	jsonResponse(w, http.StatusOK, map[string]interface{}{
 		"message": "Account linked successfully",
@@ -622,9 +626,7 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 
 	cookie, err := r.Cookie(SESSION_NAME)
 	if err == nil {
-		sessionsLock.Lock()
-		delete(sessions, cookie.Value)
-		sessionsLock.Unlock()
+		db.Delete(&Session{}, "session_id = ?", cookie.Value)
 	}
 
 	http.SetCookie(w, &http.Cookie{
