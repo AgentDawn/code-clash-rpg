@@ -1,4 +1,4 @@
-﻿// Client-Side Controller for Aetheria RPG Portal
+// Client-Side Controller for Aetheria RPG Portal
 
 const API_BASE = '/api';
 
@@ -108,7 +108,7 @@ async function checkSession() {
     state.character = window.INITIAL_STATE.character;
     state.role = window.INITIAL_STATE.role;
     state.isGuest = window.INITIAL_STATE.isGuest;
-    showToast(`${state.character.name} 紐⑦뿕媛?? ?묒냽???섏쁺?⑸땲??`, 'success');
+    showToast(`${state.character.name} 모험가님, 접속을 환영합니다!`, 'success');
     switchToDashboard();
   } else {
     switchToAuth();
@@ -186,7 +186,7 @@ loginForm.addEventListener('submit', async (e) => {
     state.character = data.character;
     state.role = data.role;
     state.isGuest = data.isGuest;
-    showToast('濡쒓렇???깃났!', 'success');
+    showToast('로그인 성공!', 'success');
     switchToDashboard();
   } catch (err) {
     // Handled by apiFetch toast
@@ -207,7 +207,7 @@ registerForm.addEventListener('submit', async (e) => {
     state.character = data.character;
     state.role = 'user';
     state.isGuest = data.isGuest;
-    showToast('鍮꾪쉶??怨꾩젙?쇰줈 ?덈줈??紐⑦뿕???쒖옉?섏뿀?듬땲??', 'success');
+    showToast('비회원 계정으로 새로운 모험이 시작되었습니다!', 'success');
     switchToDashboard();
   } catch (err) {
     // Handled by apiFetch toast
@@ -218,7 +218,7 @@ registerForm.addEventListener('submit', async (e) => {
 logoutBtn.addEventListener('click', async () => {
   try {
     await apiFetch(`${API_BASE}/logout`, { method: 'POST' });
-    showToast('?덉쟾?섍쾶 濡쒓렇?꾩썐 ?섏뿀?듬땲??', 'info');
+    showToast('안전하게 로그아웃 되었습니다.', 'info');
     switchToAuth();
   } catch (err) {
     // Fail-safe redirect anyway
@@ -256,7 +256,7 @@ if (linkAccountForm) {
         body: { username, password }
       });
       state.isGuest = false;
-      showToast('?깃났?곸쑝濡?怨꾩젙???곕룞?섏뿀?듬땲?? ?댁젣遺????ID濡?濡쒓렇?명븷 ???덉뒿?덈떎.', 'success');
+      showToast('성공적으로 계정이 연동되었습니다! 이제부터 이 ID로 로그인할 수 있습니다.', 'success');
       linkAccountModal.classList.add('hidden');
       if (document.getElementById('link-account-btn')) {
         document.getElementById('link-account-btn').classList.add('hidden');
@@ -276,16 +276,16 @@ function renderCharacter() {
   document.getElementById('char-name').innerText = char.name;
   
   const classKorean = {
-    GopherWarrior: '怨좏띁 ?꾩궗 (Go)',
-    RoutineMage: '怨좊（??留덈쾿??(Go)',
-    FerrisKnight: '?섎━??湲곗궗 (Rust)',
-    BorrowCheckerRogue: '鍮뚮┝ 寃?ш린 ?꾩쟻 (Rust)',
-    NodeNinja: '?대깽??猷⑦봽 ?뚯옄 (Node)',
-    NodeSummoner: '肄쒕갚 ?뚰솚??(Node)',
-    PythonRanger: '?ㅼ뿬?곌린 沅곸닔 (Python)',
-    PythonBerserker: 'GIL 愿묒쟾??(Python)',
-    JavaKnight: '?⑺넗由?湲곗궗 (Java)',
-    JavaCleric: 'GC ?ъ젣 (Java)'
+    GopherWarrior: '고퍼 전사 (Go)',
+    RoutineMage: '고루틴 마법사 (Go)',
+    FerrisKnight: '페리스 기사 (Rust)',
+    BorrowCheckerRogue: '빌림 검사기 도적 (Rust)',
+    NodeNinja: '이벤트 루프 닌자 (Node)',
+    NodeSummoner: '콜백 소환사 (Node)',
+    PythonRanger: '들여쓰기 궁수 (Python)',
+    PythonBerserker: 'GIL 광전사 (Python)',
+    JavaKnight: '팩토리 기사 (Java)',
+    JavaCleric: 'GC 사제 (Java)'
   };
   
   const classBadge = document.getElementById('char-class');
@@ -356,11 +356,11 @@ function renderCharacter() {
 
   // Equipment mapping
   const SHOP_ITEMS = {
-    potion: { name: '泥대젰 臾쇱빟', icon: '?㎦' },
-    sword: { name: 'Go Compiler Blade', icon: '?뿠截? },
-    staff: { name: 'Routine Channel Wand', icon: '?뵰' },
-    armor: { name: 'Rust Safe Shield', icon: '?썳截? },
-    ring: { name: 'Ownership Ring', icon: '?뭾' }
+    potion: { name: '체력 물약', icon: '🧪' },
+    sword: { name: 'Go Compiler Blade', icon: '🗡️' },
+    staff: { name: 'Routine Channel Wand', icon: '🔮' },
+    armor: { name: 'Rust Safe Shield', icon: '🛡️' },
+    ring: { name: 'Ownership Ring', icon: '💍' }
   };
 
   const slots = ['weapon', 'armor', 'ring'];
@@ -377,9 +377,9 @@ function renderCharacter() {
       eqElement.onclick = () => handleItemAction('unequip', itemKey, slot);
     } else {
       eqElement.className = 'eq-item-card empty';
-      const placeholderIcons = { weapon: '?뷂툘', armor: '?썳截?, ring: '?뭾' };
+      const placeholderIcons = { weapon: '⚔️', armor: '🛡️', ring: '💍' };
       eqElement.querySelector('.eq-icon').innerText = placeholderIcons[slot];
-      eqElement.querySelector('.eq-name').innerText = '鍮꾩뼱?덉쓬';
+      eqElement.querySelector('.eq-name').innerText = '비어있음';
       eqElement.onclick = null;
     }
   });
@@ -402,7 +402,7 @@ function renderCharacter() {
       
       // Tooltip or helper action
       const itemTitle = SHOP_ITEMS[itemKey].name;
-      slot.title = itemKey === 'potion' ? `${itemTitle} (?대┃ ??蹂듭슜)` : `${itemTitle} (?대┃ ???μ갑)`;
+      slot.title = itemKey === 'potion' ? `${itemTitle} (클릭 시 복용)` : `${itemTitle} (클릭 시 장착)`;
       
       slot.appendChild(itemWrapper);
       
@@ -458,12 +458,12 @@ function renderCharacter() {
     
     // Set quest name
     const questNames = {
-      quest1: '?섎ː: 媛꾨떒??踰꾧렇 ?쎌뒪',
-      quest2: '?섎ː: ?덇굅??由ы뙥?좊쭅',
-      quest3: '?섎ː: 肄붿뼱 ?쇱쿂 媛쒕컻',
-      quest4: '?섎ː: DB 留덉씠洹몃젅?댁뀡'
+      quest1: '의뢰: 간단한 버그 픽스',
+      quest2: '의뢰: 레거시 리팩토링',
+      quest3: '의뢰: 코어 피처 개발',
+      quest4: '의뢰: DB 마이그레이션'
     };
-    document.getElementById('active-quest-name').innerText = questNames[char.questState.questId] || '紐⑦뿕 ?섎ː';
+    document.getElementById('active-quest-name').innerText = questNames[char.questState.questId] || '모험 의뢰';
     
     // Begin/Resume local progress countdown
     startLocalQuestTimer(char.questState);
@@ -498,14 +498,14 @@ function startLocalQuestTimer(questState) {
     if (timeRemaining <= 0) {
       clearInterval(state.questInterval);
       state.questInterval = null;
-      timerText.innerText = '?섎ː ?꾨즺! 蹂닿퀬 以?..';
+      timerText.innerText = '의뢰 완료! 보고 중...';
       progressBarFill.style.width = '100%';
       
       // Auto complete on backend
       completeQuest();
     } else {
       const secondsLeft = (timeRemaining / 1000).toFixed(1);
-      timerText.innerText = `?⑥? ?쒓컙: ${secondsLeft}珥?;
+      timerText.innerText = `남은 시간: ${secondsLeft}초`;
       
       const percent = ((duration - timeRemaining) / duration) * 100;
       progressBarFill.style.width = `${percent}%`;
@@ -525,7 +525,7 @@ async function completeQuest() {
       body: { action: 'complete' }
     });
     state.character = data.character;
-    showToast('?섎ː媛 臾댁궗???꾨즺?섏뿀?듬땲??', 'success');
+    showToast('의뢰가 무사히 완료되었습니다!', 'success');
     renderCharacter();
   } catch (err) {
     // On error, let user retry or reset if needed
@@ -648,7 +648,7 @@ function renderShop() {
           body: { itemId }
         });
         state.character = data.character;
-        showToast('?꾩씠??援щℓ ?깃났!', 'success');
+        showToast('아이템 구매 성공!', 'success');
         renderCharacter();
         renderShop(); // re-render to update affordable status
       } catch (err) {}
@@ -660,7 +660,7 @@ function renderShop() {
 document.getElementById('admin-logout-btn')?.addEventListener('click', async () => {
   try {
     await apiFetch(`${API_BASE}/logout`, { method: 'POST' });
-    showToast('愿由ъ옄 濡쒓렇?꾩썐 ?섏뿀?듬땲??', 'info');
+    showToast('관리자 로그아웃 되었습니다.', 'info');
     switchToAuth();
   } catch (err) {
     switchToAuth();
@@ -671,29 +671,29 @@ document.getElementById('start-war-btn')?.addEventListener('click', async () => 
   try {
     const btn = document.getElementById('start-war-btn');
     btn.disabled = true;
-    btn.innerText = '?꾩웳 吏꾪뻾 以?..';
+    btn.innerText = '전쟁 진행 중...';
     
     const data = await apiFetch(`${API_BASE}/admin/war`, { method: 'POST' });
     
     btn.disabled = false;
-    btn.innerText = '吏꾩쁺??媛쒖떆 (Start Faction War)';
+    btn.innerText = '진영전 개시 (Start Faction War)';
     
     const resultsDiv = document.getElementById('war-results');
     const resultsList = document.getElementById('war-results-list');
     resultsDiv.style.display = 'block';
     
-    let html = `<li><strong style="color: var(--gold);">?몣 ?곗듅 吏꾩쁺: ${data.winner}</strong></li>`;
-    html += `<li>?꾩껜 ?먯닔 ?꾪솴:</li>`;
+    let html = `<li><strong style="color: var(--gold);">👑 우승 진영: ${data.winner}</strong></li>`;
+    html += `<li>전체 점수 현황:</li>`;
     
     Object.entries(data.scores).sort((a,b) => b[1] - a[1]).forEach(([faction, score]) => {
-      html += `<li>- ${faction}: ${score} ??/li>`;
+      html += `<li>- ${faction}: ${score} 점</li>`;
     });
     
     resultsList.innerHTML = html;
-    showToast('吏꾩쁺?꾩씠 ?꾨즺?섏뿀?듬땲??', 'success');
+    showToast('진영전이 완료되었습니다!', 'success');
   } catch (err) {
     document.getElementById('start-war-btn').disabled = false;
-    document.getElementById('start-war-btn').innerText = '吏꾩쁺??媛쒖떆 (Start Faction War)';
+    document.getElementById('start-war-btn').innerText = '진영전 개시 (Start Faction War)';
   }
 });
 
@@ -709,11 +709,11 @@ async function handleItemAction(action, itemId, slot = null) {
     renderCharacter();
     
     if (action === 'use') {
-      showToast('臾쇱빟???ъ슜?섏뿬 ?뚮났?덉뒿?덈떎!', 'success');
+      showToast('물약을 사용하여 회복했습니다!', 'success');
     } else if (action === 'equip') {
-      showToast('?λ퉬瑜??μ갑?덉뒿?덈떎.', 'success');
+      showToast('장비를 장착했습니다.', 'success');
     } else if (action === 'unequip') {
-      showToast('?λ퉬瑜??μ갑 ?댁젣?덉뒿?덈떎.', 'info');
+      showToast('장비를 장착 해제했습니다.', 'info');
     }
   } catch (err) {
     // Handle error
@@ -722,7 +722,6 @@ async function handleItemAction(action, itemId, slot = null) {
 
 // Initialize on page load
 checkSession();
-
 
 // --- Multiplayer / Town Square Logic ---
 
@@ -766,7 +765,6 @@ async function fetchActivePlayers() {
 function renderChat(messages) {
   const box = document.getElementById('chat-messages');
   if (!box) return;
-  // Check if scrolled to bottom
   const isAtBottom = box.scrollHeight - box.scrollTop <= box.clientHeight + 10;
   
   let html = '';
@@ -776,13 +774,13 @@ function renderChat(messages) {
     messages.forEach(msg => {
       const d = new Date(msg.created_at);
       const timeStr = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
-      html += 
+      html += `
         <div class="chat-msg">
-          <span class="chat-time">[+timeStr+]</span>
-          <span class="chat-author">+msg.charName+</span>: 
-          <span class="chat-text">+escapeHtml(msg.message)+</span>
+          <span class="chat-time">[${timeStr}]</span>
+          <span class="chat-author">${msg.charName}</span>: 
+          <span class="chat-text">${escapeHtml(msg.message)}</span>
         </div>
-      ;
+      `;
     });
   }
   box.innerHTML = html;
@@ -801,22 +799,20 @@ function renderActivePlayers(players) {
     html = '<p style="color: var(--text-dim); text-align: center; font-size: 0.8rem;">접속자가 없습니다.</p>';
   } else {
     players.forEach(p => {
-      // Don't show wave button for yourself
       const isSelf = p.charName === state.character?.name;
-      html += 
+      html += `
         <div class="active-player-item">
           <div class="active-player-info">
-            <span class="class-badge +getClassColor(p.class)+" style="font-size: 0.7rem; padding: 2px 4px;">Lv.+p.level+</span>
-            <span>+p.charName+</span>
+            <span class="class-badge ${getClassColor(p.class)}" style="font-size: 0.7rem; padding: 2px 4px;">Lv.${p.level}</span>
+            <span>${p.charName}</span>
           </div>
-          +(!isSelf ? <button class="wave-btn" data-target="+p.username+">??</button> : '')+
+          ${!isSelf ? `<button class="wave-btn" data-target="${p.username}">👋</button>` : ''}
         </div>
-      ;
+      `;
     });
   }
   list.innerHTML = html;
   
-  // Attach wave events
   document.querySelectorAll('.wave-btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       const target = e.target.getAttribute('data-target');
@@ -862,11 +858,10 @@ document.getElementById('chat-form')?.addEventListener('submit', async (e) => {
       body: { message }
     });
     input.value = '';
-    fetchChat(); // Update immediately
+    fetchChat();
   } catch (err) {}
 });
 
-// Hook into existing switch functions
 const originalSwitchToDashboard = switchToDashboard;
 switchToDashboard = function() {
   originalSwitchToDashboard();
@@ -878,4 +873,3 @@ switchToAuth = function() {
   originalSwitchToAuth();
   stopTownSquare();
 };
-
